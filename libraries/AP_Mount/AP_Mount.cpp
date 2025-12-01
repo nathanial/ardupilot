@@ -15,7 +15,9 @@
 #include "AP_Mount_Gremsy.h"
 #include "AP_Mount_Siyi.h"
 #include "AP_Mount_Scripting.h"
+#if __has_include("AP_Mount_Xacti.h")
 #include "AP_Mount_Xacti.h"
+#endif
 #include "AP_Mount_Viewpro.h"
 #include "AP_Mount_Topotek.h"
 #include "AP_Mount_CADDX.h"

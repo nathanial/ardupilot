@@ -32,7 +32,12 @@
 #include <AP_HAL/AP_HAL.h>
 
 #if HAL_ENABLE_DRONECAN_DRIVERS
+#if __has_include("AP_BattMonitor_DroneCAN.h")
 #include "AP_BattMonitor_DroneCAN.h"
+#else
+#undef HAL_ENABLE_DRONECAN_DRIVERS
+#define HAL_ENABLE_DRONECAN_DRIVERS 0
+#endif
 #endif
 
 #include <AP_Vehicle/AP_Vehicle_Type.h>

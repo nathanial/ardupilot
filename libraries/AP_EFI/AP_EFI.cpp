@@ -20,7 +20,9 @@
 #include "AP_EFI_Serial_MS.h"
 #include "AP_EFI_Serial_Lutan.h"
 #include "AP_EFI_NWPMU.h"
+#if __has_include("AP_EFI_DroneCAN.h")
 #include "AP_EFI_DroneCAN.h"
+#endif
 #include "AP_EFI_Currawong_ECU.h"
 #include "AP_EFI_Serial_Hirth.h"
 #include "AP_EFI_Loweheiser.h"

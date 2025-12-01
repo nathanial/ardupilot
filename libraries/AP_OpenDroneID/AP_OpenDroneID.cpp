@@ -39,7 +39,12 @@
 #include <AP_AHRS/AP_AHRS.h>
 #include <AP_Parachute/AP_Parachute.h>
 #include <AP_Vehicle/AP_Vehicle.h>
+#if __has_include(<AP_DroneCAN/AP_DroneCAN.h>)
 #include <AP_DroneCAN/AP_DroneCAN.h>
+#else
+#undef HAL_ENABLE_DRONECAN_DRIVERS
+#define HAL_ENABLE_DRONECAN_DRIVERS 0
+#endif
 #include <stdio.h>
 #include <GCS_MAVLink/GCS.h>
 

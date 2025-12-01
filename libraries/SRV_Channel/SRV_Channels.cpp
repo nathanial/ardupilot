@@ -33,7 +33,12 @@
 
 #if HAL_MAX_CAN_PROTOCOL_DRIVERS
   #include <AP_CANManager/AP_CANManager.h>
+  #if __has_include(<AP_DroneCAN/AP_DroneCAN.h>)
   #include <AP_DroneCAN/AP_DroneCAN.h>
+  #else
+  #undef HAL_ENABLE_DRONECAN_DRIVERS
+  #define HAL_ENABLE_DRONECAN_DRIVERS 0
+  #endif
   #if __has_include(<AP_PiccoloCAN/AP_PiccoloCAN.h>)
   #include <AP_PiccoloCAN/AP_PiccoloCAN.h>
   #else

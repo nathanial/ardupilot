@@ -7,7 +7,12 @@
 #include <AP_Notify/AP_Notify.h>
 
 #if HAL_CANMANAGER_ENABLED
+#if __has_include(<AP_DroneCAN/AP_DroneCAN.h>)
 #include <AP_DroneCAN/AP_DroneCAN.h>
+#else
+#undef HAL_ENABLE_DRONECAN_DRIVERS
+#define HAL_ENABLE_DRONECAN_DRIVERS 0
+#endif
 #include <AP_CANManager/AP_CANManager.h>
 #endif
 

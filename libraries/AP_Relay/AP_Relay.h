@@ -25,7 +25,12 @@
 #endif
 
 #if AP_RELAY_DRONECAN_ENABLED
+#if __has_include(<AP_DroneCAN/AP_DroneCAN.h>)
 #include <AP_DroneCAN/AP_DroneCAN.h>
+#else
+#undef AP_RELAY_DRONECAN_ENABLED
+#define AP_RELAY_DRONECAN_ENABLED 0
+#endif
 #endif
 
 /// @class	AP_Relay

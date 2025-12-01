@@ -109,7 +109,12 @@
   #undef HAL_PICCOLO_CAN_ENABLE
   #define HAL_PICCOLO_CAN_ENABLE 0
   #endif
+  #if __has_include(<AP_DroneCAN/AP_DroneCAN.h>)
   #include <AP_DroneCAN/AP_DroneCAN.h>
+  #else
+  #undef HAL_ENABLE_DRONECAN_DRIVERS
+  #define HAL_ENABLE_DRONECAN_DRIVERS 0
+  #endif
 #endif
 
 #include <AP_BattMonitor/AP_BattMonitor_config.h>

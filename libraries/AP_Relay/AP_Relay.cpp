@@ -26,8 +26,13 @@
 #endif
 
 #if AP_RELAY_DRONECAN_ENABLED
+#if __has_include(<AP_DroneCAN/AP_DroneCAN.h>)
 #include <AP_DroneCAN/AP_DroneCAN.h>
 #include <AP_CANManager/AP_CANManager.h>
+#else
+#undef AP_RELAY_DRONECAN_ENABLED
+#define AP_RELAY_DRONECAN_ENABLED 0
+#endif
 #endif
 
 #if AP_SIM_ENABLED

@@ -61,6 +61,26 @@ This document tracks potential files/directories that could be removed for a SIT
 ### Other
 - `benchmarks/` - Benchmark stubs
 
+### DroneCAN (Full Removal)
+- `libraries/AP_DroneCAN/` - DroneCAN protocol library (~200KB)
+- `modules/DroneCAN/` - DroneCAN submodule (~300KB)
+- `libraries/SITL/SIM_DroneCANDevice.cpp/h` - SITL DroneCAN simulator
+- `libraries/AP_Notify/DroneCAN_RGB_LED.cpp/h` - DroneCAN LED driver
+- DroneCAN backend drivers in sensor libraries:
+  - `libraries/AP_GPS/AP_GPS_DroneCAN.cpp/h`
+  - `libraries/AP_Compass/AP_Compass_DroneCAN.cpp/h`
+  - `libraries/AP_Baro/AP_Baro_DroneCAN.cpp/h`
+  - `libraries/AP_BattMonitor/AP_BattMonitor_DroneCAN.cpp/h`
+  - `libraries/AP_Airspeed/AP_Airspeed_DroneCAN.cpp/h`
+  - `libraries/AP_RCProtocol/AP_RCProtocol_DroneCAN.cpp/h`
+  - `libraries/AP_EFI/AP_EFI_DroneCAN.cpp/h`
+  - `libraries/AP_RPM/RPM_DroneCAN.cpp/h`
+  - `libraries/AP_TemperatureSensor/AP_TemperatureSensor_DroneCAN.cpp/h`
+  - `libraries/AP_Mount/AP_Mount_Xacti.cpp/h`
+  - `libraries/AP_OpenDroneID/AP_OpenDroneID_DroneCAN.cpp`
+
+Code changes: Set `with_can = False` in `Tools/ardupilotwaf/boards.py` (SITL class), added `__has_include` guards in 9 files.
+
 ---
 
 ## High Confidence - Already Removed
@@ -219,7 +239,6 @@ The following sensor libraries contain hardware-specific drivers that could be r
 | `Tools/scripts/` | Build/utility scripts |
 | `modules/mavlink/` | MAVLink protocol (essential) |
 | `modules/waf/` | Build system |
-| `modules/DroneCAN/` | DroneCAN support |
 | `modules/littlefs/` | Filesystem support |
 | `docs/` | Documentation |
 
@@ -243,7 +262,8 @@ The following sensor libraries contain hardware-specific drivers that could be r
 | Sensor Drivers | AP_RangeFinder hardware drivers (85 files) | ~500KB |
 | Sensor Drivers | AP_OpticalFlow hardware drivers (17 files) | ~150KB |
 | Sensor Drivers | AP_Proximity hardware drivers (24 files) | ~200KB |
+| DroneCAN | libraries/AP_DroneCAN, modules/DroneCAN, backend drivers | ~650KB |
 
-**Total saved: ~70MB+**
+**Total saved: ~70.5MB+**
 
 **Potential additional savings:** Removing hardware drivers from remaining sensor libraries (AP_Compass, AP_Baro, AP_GPS, AP_InertialSensor, AP_BattMonitor) could save an additional ~2MB and significantly simplify the codebase for understanding.

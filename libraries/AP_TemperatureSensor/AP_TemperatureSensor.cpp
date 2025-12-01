@@ -31,7 +31,9 @@
 #include "AP_TemperatureSensor_MCP9600.h"
 #include "AP_TemperatureSensor_MAX31865.h"
 #include "AP_TemperatureSensor_Analog.h"
+#if __has_include("AP_TemperatureSensor_DroneCAN.h")
 #include "AP_TemperatureSensor_DroneCAN.h"
+#endif
 #include "AP_TemperatureSensor_MLX90614.h"
 #include "AP_TemperatureSensor_SHT3x.h"
 

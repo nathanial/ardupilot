@@ -2,7 +2,12 @@
 
 #include <AP_Param/AP_Param.h>
 #include "lua/src/lua.hpp"
+#if __has_include(<AP_DroneCAN/AP_DroneCAN.h>)
 #include <AP_DroneCAN/AP_DroneCAN.h>
+#else
+#undef HAL_ENABLE_DRONECAN_DRIVERS
+#define HAL_ENABLE_DRONECAN_DRIVERS 0
+#endif
 
 int lua_new_Parameter(lua_State *L);
 

@@ -24,7 +24,9 @@
 #include "RPM_Generator.h"
 #include "RPM_HarmonicNotch.h"
 #include "RPM_ESC_Telem.h"
+#if __has_include("RPM_DroneCAN.h")
 #include "RPM_DroneCAN.h"
+#endif
 
 #include <AP_Logger/AP_Logger.h>
 

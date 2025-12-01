@@ -35,7 +35,9 @@
 #include "DiscreteRGBLed.h"
 #include "DiscoLED.h"
 #include "Led_Sysfs.h"
+#if __has_include("DroneCAN_RGB_LED.h")
 #include "DroneCAN_RGB_LED.h"
+#endif
 #include "SITL_SFML_LED.h"
 #include <stdio.h>
 #include "AP_BoardLED2.h"

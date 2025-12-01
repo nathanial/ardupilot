@@ -765,7 +765,7 @@ class sitl(Board):
     def __init__(self):
         super().__init__()
 
-        self.with_can = True
+        self.with_can = False
         self.with_littlefs = True
 
     def configure_env(self, cfg, env):

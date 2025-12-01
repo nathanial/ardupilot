@@ -30,7 +30,9 @@
 #include "SIM_SlungPayload.h"
 #include "SIM_Tether.h"
 #include "SIM_GPS.h"
+#if __has_include("SIM_DroneCANDevice.h")
 #include "SIM_DroneCANDevice.h"
+#endif
 #include "SIM_ADSB_Sagetech_MXS.h"
 #include "SIM_Volz.h"
 #include "SIM_AIS.h"

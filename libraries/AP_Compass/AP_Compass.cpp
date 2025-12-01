@@ -33,7 +33,12 @@
 #include "AP_Compass_AK09916.h"
 #include "AP_Compass_QMC5883L.h"
 #if AP_COMPASS_DRONECAN_ENABLED
+#if __has_include("AP_Compass_DroneCAN.h")
 #include "AP_Compass_DroneCAN.h"
+#else
+#undef AP_COMPASS_DRONECAN_ENABLED
+#define AP_COMPASS_DRONECAN_ENABLED 0
+#endif
 #endif
 #include "AP_Compass_QMC5883P.h"
 #include "AP_Compass_MMC3416.h"

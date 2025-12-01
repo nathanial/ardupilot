@@ -34,7 +34,9 @@
 #include "AP_RCProtocol_ST24.h"
 #include "AP_RCProtocol_FPort.h"
 #include "AP_RCProtocol_FPort2.h"
+#if __has_include("AP_RCProtocol_DroneCAN.h")
 #include "AP_RCProtocol_DroneCAN.h"
+#endif
 #include "AP_RCProtocol_GHST.h"
 #include "AP_RCProtocol_MAVLinkRadio.h"
 #include "AP_RCProtocol_Joystick_SFML.h"
