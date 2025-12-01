@@ -235,23 +235,11 @@ void AP_AHRS::init()
     if (_ekf_type.get() == 1) {
         AP_BoardConfig::config_error("EKF1 not available");
     }
-#if !HAL_NAVEKF2_AVAILABLE && HAL_NAVEKF3_AVAILABLE
+    // EKF2 no longer available - migrate users who had type=2 to EKF3
+#if HAL_NAVEKF3_AVAILABLE
     if (_ekf_type.get() == 2) {
         _ekf_type.set(EKFType::THREE);
         EKF3.set_enable(true);
-    }
-#elif !HAL_NAVEKF3_AVAILABLE && HAL_NAVEKF2_AVAILABLE
-    if (_ekf_type.get() == 3) {
-        _ekf_type.set(EKFType::TWO);
-        EKF2.set_enable(true);
-    }
-#endif
-
-#if HAL_NAVEKF2_AVAILABLE && HAL_NAVEKF3_AVAILABLE
-    // a special case to catch users who had AHRS_EKF_TYPE=2 saved and
-    // updated to a version where EK2_ENABLE=0
-    if (_ekf_type.get() == 2 && !EKF2.get_enable() && EKF3.get_enable()) {
-        _ekf_type.set(EKFType::THREE);
     }
 #endif
 
@@ -347,9 +335,6 @@ void AP_AHRS::reset_gyro_drift(void)
 #endif
 
     // reset the EKF gyro bias states
-#if HAL_NAVEKF2_AVAILABLE
-    EKF2.resetGyroBias();
-#endif
 #if HAL_NAVEKF3_AVAILABLE
     EKF3.resetGyroBias();
 #endif

@@ -794,12 +794,6 @@ class sitl(Board):
             '-DAC_POLYFENCE_FENCE_POINT_PROTOCOL_SUPPORT=HAL_GCS_ENABLED&&AP_FENCE_ENABLED'
         ])
 
-        try:
-            env.CXXFLAGS.remove('-DHAL_NAVEKF2_AVAILABLE=0')
-        except ValueError:
-            pass
-        env.CXXFLAGS += ['-DHAL_NAVEKF2_AVAILABLE=1']
-
         if self.with_can:
             cfg.define('HAL_NUM_CAN_IFACES', 2)
             env.DEFINES.update(CANARD_MULTI_IFACE=1,
@@ -1048,12 +1042,6 @@ class sitl_periph(sitl):
             AP_PERIPH_BUZZER_WITHOUT_NOTIFY_ENABLED = 0,
             AP_PERIPH_RTC_GLOBALTIME_ENABLED = 0,
         )
-
-        try:
-            env.CXXFLAGS.remove('-DHAL_NAVEKF2_AVAILABLE=1')
-        except ValueError:
-            pass
-        env.CXXFLAGS += ['-DHAL_NAVEKF2_AVAILABLE=0']
 
 class sitl_periph_universal(sitl_periph):
     def configure_env(self, cfg, env):

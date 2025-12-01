@@ -125,7 +125,6 @@ const struct MultiplierStructure log_Multipliers[] = {
 
 #include <AP_Beacon/LogStructure.h>
 #include <AP_DAL/LogStructure.h>
-#include <AP_NavEKF2/LogStructure.h>
 #include <AP_NavEKF3/LogStructure.h>
 #include <AP_GPS/LogStructure.h>
 #include <AP_NavEKF/LogStructure.h>
@@ -1225,7 +1224,6 @@ LOG_STRUCTURE_FROM_SERVO_TELEM \
 LOG_STRUCTURE_FROM_LANDING \
 LOG_STRUCTURE_FROM_INERTIALSENSOR \
 LOG_STRUCTURE_FROM_DAL \
-LOG_STRUCTURE_FROM_NAVEKF2 \
 LOG_STRUCTURE_FROM_NAVEKF3 \
 LOG_STRUCTURE_FROM_NAVEKF \
 LOG_STRUCTURE_FROM_AHRS \
@@ -1272,7 +1270,6 @@ LOG_STRUCTURE_FROM_AIS \
 // message types for common messages
 enum LogMessages : uint8_t {
     LOG_PARAMETER_MSG = 32,
-    LOG_IDS_FROM_NAVEKF2,
     LOG_IDS_FROM_NAVEKF3,
     LOG_MESSAGE_MSG,
     LOG_RCIN_MSG,

@@ -24,10 +24,8 @@
 #define AP_AHRS_EXTERNAL_ENABLED AP_AHRS_BACKEND_DEFAULT_ENABLED && AP_EXTERNAL_AHRS_ENABLED
 #endif
 
-#ifndef HAL_NAVEKF2_AVAILABLE
-// EKF2 slated compiled out by default in 4.5, slated to be removed.
+// EKF2 has been removed - define to 0 so guarded code compiles out
 #define HAL_NAVEKF2_AVAILABLE 0
-#endif
 
 #ifndef HAL_NAVEKF3_AVAILABLE
 #define HAL_NAVEKF3_AVAILABLE AP_AHRS_BACKEND_DEFAULT_ENABLED && AP_INERTIALSENSOR_ENABLED

@@ -71,7 +71,6 @@ class ExtractFeatures(object):
             ('HAL_TORQEEDO_ENABLED', 'AP_Torqeedo::AP_Torqeedo'),
 
             ('HAL_NAVEKF3_AVAILABLE', 'NavEKF3::NavEKF3',),
-            ('HAL_NAVEKF2_AVAILABLE', 'NavEKF2::NavEKF2',),
             ('AP_EXTERNAL_AHRS_ENABLED', r'AP_ExternalAHRS::init\b',),
             ('AP_EXTERNAL_AHRS_{type}_ENABLED', r'AP_ExternalAHRS_(?P<type>.*)::healthy\b',),
             ('HAL_INS_TEMPERATURE_CAL_ENABLE', 'AP_InertialSensor_TCal::Learn::save_calibration',),

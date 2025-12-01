@@ -197,10 +197,8 @@ void Replay::_parse_command_line(uint8_t argc, char * const argv[])
     }
 }
 
+// EKF2 has been removed - empty array for compatibility
 static const LogStructure EKF2_log_structures[] = {
-    { LOG_FORMAT_UNITS_MSG, sizeof(log_Format_Units), \
-      "FMTU", "QBNN",      "TimeUS,FmtType,UnitIds,MultIds","s---", "F---" },   \
-    LOG_STRUCTURE_FROM_NAVEKF2                  \
 };
 
 /*

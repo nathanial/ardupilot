@@ -55,6 +55,9 @@ This document tracks potential files/directories that could be removed for a SIT
 - `libraries/AP_FETtecOneWire/` - FETtec ESC (50K) - Added include guards, removed from waf
 - `modules/lwip/` - Lightweight IP stack (8.8M) - Guarded with AP_NETWORKING_NEED_LWIP
 
+### Navigation (EKF2 Removal)
+- `libraries/AP_NavEKF2/` - Old EKF2 estimator (~4.5M) - NavEKF3 is current and sufficient
+
 ### Other
 - `benchmarks/` - Benchmark stubs
 
@@ -81,7 +84,7 @@ These items from the original "High Confidence" list have been removed:
 
 The following libraries required code changes before they could be removed. These changes have been applied:
 
-### Files Modified
+### Files Modified (Previous Sessions)
 
 1. **`libraries/AP_CANManager/AP_CANManager.cpp`** - Added `__has_include` guards for AP_KDECAN and AP_PiccoloCAN
 2. **`libraries/AP_CANManager/AP_CANManager_CANDriver_Params.cpp`** - Added guards for AP_KDECAN
@@ -103,6 +106,21 @@ The following libraries required code changes before they could be removed. Thes
 18. **`ArduCopter/wscript`** - Removed AP_KDECAN from ap_libraries
 19. **`Blimp/wscript`** - Removed AP_KDECAN from ap_libraries
 
+### Files Modified (AP_NavEKF2 Removal)
+
+1. **`Tools/ardupilotwaf/ardupilotwaf.py`** - Removed AP_NavEKF2 from COMMON_VEHICLE_DEPENDENT_LIBRARIES
+2. **`Tools/ardupilotwaf/boards.py`** - Removed HAL_NAVEKF2_AVAILABLE=1 override for SITL board
+3. **`Tools/scripts/build_options.py`** - Removed EKF2 feature option
+4. **`Tools/scripts/extract_features.py`** - Removed EKF2 feature detection
+5. **`libraries/AP_DAL/examples/AP_DAL_Standalone/wscript`** - Removed AP_NavEKF2 from library list
+6. **`libraries/AP_AHRS/AP_AHRS_config.h`** - Set HAL_NAVEKF2_AVAILABLE=0 (compile-out guard)
+7. **`libraries/AP_AHRS/AP_AHRS.h`** - Removed EKF2 include, NavEKF2 member, EKFType::TWO enum
+8. **`libraries/AP_AHRS/AP_AHRS.cpp`** - Simplified EKF selection to auto-migrate type=2 to EKF3
+9. **`ArduPlane/Plane.h`** - Removed AP_NavEKF2 include
+10. **`libraries/AP_Logger/LogStructure.h`** - Removed EKF2 log structure include and LOG_IDS_FROM_NAVEKF2
+11. **`libraries/AP_NavEKF/LogStructure.h`** - Removed NKY0/NKY1 (EKF2) log message entries
+12. **`Tools/Replay/Replay.cpp`** - Emptied EKF2_log_structures array
+
 ### Pattern Used
 
 For each removed library, includes were wrapped with `__has_include`:
@@ -123,7 +141,6 @@ For each removed library, includes were wrapped with `__has_include`:
 |------|------|--------|
 | `modules/gtest/` | 4.4M | Google Test - only if you don't run unit tests |
 | `Tools/Replay/` | 120K | Log replay tool - useful for debugging |
-| `libraries/AP_NavEKF/` + `AP_NavEKF2/` | 4.5M | Old EKF versions - NavEKF3 is current, but might be needed for compatibility |
 
 ---
 
@@ -133,6 +150,8 @@ For each removed library, includes were wrapped with `__has_include`:
 |------|--------|
 | `libraries/SITL/` (42M) | Core simulator physics/models |
 | `libraries/AP_HAL_SITL/` | SITL HAL implementation |
+| `libraries/AP_NavEKF/` | Shared EKF code (used by EKF3, includes EKFGSF_yaw) |
+| `libraries/AP_NavEKF3/` | Current EKF implementation |
 | `Tools/autotest/` | SITL test framework |
 | `Tools/ardupilotwaf/` | Build system |
 | `Tools/scripts/` | Build/utility scripts |
@@ -148,6 +167,7 @@ For each removed library, includes were wrapped with `__has_include`:
 
 - Building all vehicles in parallel (`./waf plane copter ...`) has a pre-existing linker issue with ArduPlane
 - Use `./build_all.sh` to build vehicles sequentially instead
+- A convenience script `run_sitl.sh` is available at the repo root to launch ArduPlane SITL
 
 ## Removal Summary
 
@@ -157,5 +177,6 @@ For each removed library, includes were wrapped with `__has_include`:
 | High Confidence | 6 Tools directories | ~1.2MB |
 | Medium Confidence | AP_HAL_Linux, AP_ONVIF | ~3.7MB |
 | Code Changes Required | AP_PiccoloCAN, AP_KDECAN, AP_IOMCU, AP_BLHeli, AP_FETtecOneWire, modules/lwip | ~10.4MB |
+| EKF2 Removal | libraries/AP_NavEKF2 | ~4.5MB |
 
-**Total saved: ~65MB+**
+**Total saved: ~70MB+**
