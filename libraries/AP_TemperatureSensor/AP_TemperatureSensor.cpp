@@ -26,16 +26,32 @@
 
 #if !AP_TEMPERATURE_SENSOR_DUMMY_METHODS_ENABLED
 
+#include "AP_TemperatureSensor_Backend.h"
+
+#if AP_TEMPERATURE_SENSOR_TSYS01_ENABLED
 #include "AP_TemperatureSensor_TSYS01.h"
+#endif
+#if AP_TEMPERATURE_SENSOR_TSYS03_ENABLED
 #include "AP_TemperatureSensor_TSYS03.h"
+#endif
+#if AP_TEMPERATURE_SENSOR_MCP9600_ENABLED
 #include "AP_TemperatureSensor_MCP9600.h"
+#endif
+#if AP_TEMPERATURE_SENSOR_MAX31865_ENABLED
 #include "AP_TemperatureSensor_MAX31865.h"
+#endif
+#if AP_TEMPERATURE_SENSOR_ANALOG_ENABLED
 #include "AP_TemperatureSensor_Analog.h"
-#if __has_include("AP_TemperatureSensor_DroneCAN.h")
+#endif
+#if AP_TEMPERATURE_SENSOR_DRONECAN_ENABLED
 #include "AP_TemperatureSensor_DroneCAN.h"
 #endif
+#if AP_TEMPERATURE_SENSOR_MLX90614_ENABLED
 #include "AP_TemperatureSensor_MLX90614.h"
+#endif
+#if AP_TEMPERATURE_SENSOR_SHT3X_ENABLED
 #include "AP_TemperatureSensor_SHT3x.h"
+#endif
 
 #include <AP_Logger/AP_Logger.h>
 #include <AP_Vehicle/AP_Vehicle_Type.h>

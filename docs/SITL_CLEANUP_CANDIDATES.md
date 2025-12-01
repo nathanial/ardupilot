@@ -254,6 +254,52 @@ Files deleted:
 - `examples/Airspeed/` - Example (2 files)
 - `models/` - MATLAB models (2 files)
 
+### Files Modified (AP_RPM Hardware Driver Removal)
+
+Removed 5 files from `libraries/AP_RPM/` (1 hardware driver + examples), keeping:
+- `AP_RPM.cpp/h` - Core library
+- `RPM_Backend.cpp/h` - Base backend class
+- `AP_RPM_config.h` - Configuration
+- `AP_RPM_Params.cpp/h` - Parameters
+- `RPM_SITL.cpp/h` - SITL backend
+- `RPM_EFI.cpp/h` - EFI integration (feature-dependent)
+- `RPM_ESC_Telem.cpp/h` - ESC telemetry (feature-dependent)
+- `RPM_Generator.cpp/h` - Generator (feature-dependent)
+- `RPM_HarmonicNotch.cpp/h` - Harmonic notch (feature-dependent)
+
+Code changes:
+1. **`libraries/AP_RPM/AP_RPM_config.h`** - Set `AP_RPM_PIN_ENABLED` to 0
+2. **`libraries/AP_RPM/AP_RPM.cpp`** - Added `#if` guard around `RPM_Pin.h` include
+
+Files deleted:
+- `RPM_Pin.cpp/h` - Pin/PWM hardware driver
+- `examples/ArduinoHallEffectDebug.ino` - Arduino example
+- `examples/RPM_generic/RPM_generic.cpp` - RPM example
+- `examples/RPM_generic/wscript` - Example wscript
+
+### Files Modified (AP_TemperatureSensor Hardware Driver Removal)
+
+Removed 14 files from `libraries/AP_TemperatureSensor/` (7 hardware drivers), keeping:
+- `AP_TemperatureSensor.cpp/h` - Core library
+- `AP_TemperatureSensor_Backend.cpp/h` - Base backend class
+- `AP_TemperatureSensor_config.h` - Configuration
+- `AP_TemperatureSensor_Params.cpp/h` - Parameters
+
+**Note:** No SITL backend exists - all hardware drivers removed.
+
+Code changes:
+1. **`libraries/AP_TemperatureSensor/AP_TemperatureSensor_config.h`** - Added missing macros (TSYS01, TSYS03, MCP9600), set all hardware backends to 0
+2. **`libraries/AP_TemperatureSensor/AP_TemperatureSensor.cpp`** - Added unconditional `#include "AP_TemperatureSensor_Backend.h"`, added `#if` guards around all hardware driver includes
+
+Files deleted:
+- `AP_TemperatureSensor_TSYS01.cpp/h` - TSYS01 I2C sensor
+- `AP_TemperatureSensor_TSYS03.cpp/h` - TSYS03 I2C sensor
+- `AP_TemperatureSensor_MCP9600.cpp/h` - MCP9600 I2C thermocouple
+- `AP_TemperatureSensor_MAX31865.cpp/h` - MAX31865 SPI RTD
+- `AP_TemperatureSensor_Analog.cpp/h` - Analog thermistor
+- `AP_TemperatureSensor_MLX90614.cpp/h` - MLX90614 IR sensor
+- `AP_TemperatureSensor_SHT3x.cpp/h` - SHT3x humidity/temp sensor
+
 ### Pattern Used
 
 For each removed library, includes were wrapped with `__has_include`:
@@ -352,5 +398,7 @@ The following sensor libraries had hardware-specific drivers removed using `__ha
 | Standalone Library | AP_Radio (16 files) | ~280KB |
 | Sensor Drivers | AP_Beacon hardware drivers (10 files) | ~100KB |
 | Sensor Drivers | AP_Airspeed hardware drivers (18 files) | ~180KB |
+| Sensor Drivers | AP_RPM hardware drivers (5 files) | ~50KB |
+| Sensor Drivers | AP_TemperatureSensor hardware drivers (14 files) | ~100KB |
 
-**Total saved: ~73.1MB+**
+**Total saved: ~73.4MB+**
