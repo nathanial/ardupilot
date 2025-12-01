@@ -17,7 +17,9 @@
 #include <AP_Common/AP_Common.h>
 #include <AP_Param/AP_Param.h>
 #include "AP_Notify_config.h"
+#if HAL_WITH_IO_MCU
 #include <AP_IOMCU/AP_IOMCU.h>
+#endif
 
 #include "NotifyDevice.h"
 

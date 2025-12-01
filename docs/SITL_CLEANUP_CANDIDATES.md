@@ -47,6 +47,14 @@ This document tracks potential files/directories that could be removed for a SIT
 - `libraries/AP_HAL_Linux/` - Linux embedded HAL (924K) - SITL uses AP_HAL_SITL, all includes guarded
 - `libraries/AP_ONVIF/` - ONVIF camera protocol (2.8M) - opt-in only via --enable-onvif flag
 
+### Libraries (Required Code Changes)
+- `libraries/AP_PiccoloCAN/` - Piccolo CAN ESC (1.3M) - Added include guards, removed from waf
+- `libraries/AP_KDECAN/` - KDE CAN ESC (50K) - Added include guards, removed from waf/wscripts
+- `libraries/AP_IOMCU/` - IO coprocessor (100K) - Guarded in bindings.desc, removed from waf
+- `libraries/AP_BLHeli/` - BLHeli ESC protocol (100K) - Added include guards, removed from waf
+- `libraries/AP_FETtecOneWire/` - FETtec ESC (50K) - Added include guards, removed from waf
+- `modules/lwip/` - Lightweight IP stack (8.8M) - Guarded with AP_NETWORKING_NEED_LWIP
+
 ### Other
 - `benchmarks/` - Benchmark stubs
 
@@ -69,22 +77,43 @@ These items from the original "High Confidence" list have been removed:
 
 ---
 
-## Cannot Remove Without Code Changes
+## Code Changes Made to Enable Removal
 
-These libraries compile to nothing or are disabled for SITL, but have unguarded includes or build system dependencies that prevent simple removal:
+The following libraries required code changes before they could be removed. These changes have been applied:
 
-| Item | Size | Blocker |
-|------|------|---------|
-| `libraries/AP_PiccoloCAN/` | 1.3M | Unguarded includes in AP_CANManager, AP_Generator, AP_EFI; listed in ardupilotwaf.py |
-| `libraries/AP_IOMCU/` | ~100K | Listed in COMMON_VEHICLE_DEPENDENT_LIBRARIES in ardupilotwaf.py |
-| `libraries/AP_BLHeli/` | ~100K | Listed in COMMON_VEHICLE_DEPENDENT_LIBRARIES in ardupilotwaf.py |
-| `libraries/AP_FETtecOneWire/` | ~50K | Listed in COMMON_VEHICLE_DEPENDENT_LIBRARIES in ardupilotwaf.py |
-| `libraries/AP_KDECAN/` | ~50K | Unguarded includes in AP_CANManager; listed in ardupilotwaf.py |
-| `modules/lwip/` | 8.8M | AP_Networking.cpp includes lwipopts.h unconditionally when AP_NETWORKING_ENABLED (true for SITL) |
+### Files Modified
 
-**To remove these**, you would need to:
-1. Add compile guards around the includes
-2. Remove entries from `Tools/ardupilotwaf/ardupilotwaf.py` library lists
+1. **`libraries/AP_CANManager/AP_CANManager.cpp`** - Added `__has_include` guards for AP_KDECAN and AP_PiccoloCAN
+2. **`libraries/AP_CANManager/AP_CANManager_CANDriver_Params.cpp`** - Added guards for AP_KDECAN
+3. **`libraries/AP_Generator/AP_Generator_config.h`** - Guarded AP_PiccoloCAN_config.h include
+4. **`libraries/SRV_Channel/SRV_Channel.h`** - Guarded AP_BLHeli and AP_FETtecOneWire includes
+5. **`libraries/SRV_Channel/SRV_Channels.cpp`** - Guarded AP_BLHeli and AP_FETtecOneWire includes
+6. **`libraries/AP_Arming/AP_Arming.cpp`** - Guarded AP_BLHeli include
+7. **`libraries/AP_Notify/AP_Notify.h`** - Guarded AP_IOMCU include with HAL_WITH_IO_MCU
+8. **`libraries/AP_Notify/ProfiLED_IOMCU.h`** - Guarded AP_IOMCU include
+9. **`libraries/AP_BoardConfig/IMU_heater.cpp`** - Guarded AP_IOMCU include
+10. **`libraries/AP_Logger/AP_Logger_Backend.cpp`** - Guarded AP_IOMCU include
+11. **`libraries/AP_Vehicle/AP_Vehicle.h`** - Guarded KDECAN and BLHeli includes
+12. **`libraries/AP_Vehicle/AP_Vehicle.cpp`** - Guarded KDECAN include
+13. **`libraries/AP_EFI/AP_EFI_config.h`** - Made CURRAWONG_ECU depend on HAL_PICCOLO_CAN_ENABLE
+14. **`libraries/GCS_MAVLink/GCS_Common.cpp`** - Guarded PiccoloCAN, KDECAN, BLHeli includes
+15. **`libraries/AP_Networking/AP_Networking.cpp`** - Wrapped lwip includes with AP_NETWORKING_NEED_LWIP
+16. **`libraries/AP_Scripting/generator/description/bindings.desc`** - Made AP_IOMCU include conditional
+17. **`Tools/ardupilotwaf/ardupilotwaf.py`** - Removed libraries from dependency lists
+18. **`ArduCopter/wscript`** - Removed AP_KDECAN from ap_libraries
+19. **`Blimp/wscript`** - Removed AP_KDECAN from ap_libraries
+
+### Pattern Used
+
+For each removed library, includes were wrapped with `__has_include`:
+```cpp
+#if __has_include(<AP_SomeLib/AP_SomeLib.h>)
+#include <AP_SomeLib/AP_SomeLib.h>
+#else
+#undef AP_SOMELIB_ENABLED
+#define AP_SOMELIB_ENABLED 0
+#endif
+```
 
 ---
 
@@ -127,3 +156,6 @@ These libraries compile to nothing or are disabled for SITL, but have unguarded 
 | Initial | HALs, Tools, Modules, etc. | ~50MB+ |
 | High Confidence | 6 Tools directories | ~1.2MB |
 | Medium Confidence | AP_HAL_Linux, AP_ONVIF | ~3.7MB |
+| Code Changes Required | AP_PiccoloCAN, AP_KDECAN, AP_IOMCU, AP_BLHeli, AP_FETtecOneWire, modules/lwip | ~10.4MB |
+
+**Total saved: ~65MB+**

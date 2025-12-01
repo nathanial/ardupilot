@@ -13,7 +13,9 @@
 #include <AP_Vehicle/AP_Vehicle_Type.h>
 #include <Filter/Filter.h>
 #include "AP_Logger.h"
+#if HAL_WITH_IO_MCU
 #include <AP_IOMCU/AP_IOMCU.h>
+#endif
 
 #if HAL_LOGGER_FENCE_ENABLED
     #include <AC_Fence/AC_Fence.h>

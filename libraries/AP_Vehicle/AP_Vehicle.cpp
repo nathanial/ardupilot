@@ -5,7 +5,12 @@
 #include "AP_Vehicle.h"
 #include <AP_InertialSensor/AP_InertialSensor_rate_config.h>
 
+#if __has_include(<AP_BLHeli/AP_BLHeli.h>)
 #include <AP_BLHeli/AP_BLHeli.h>
+#else
+#undef HAL_SUPPORT_RCOUT_SERIAL
+#define HAL_SUPPORT_RCOUT_SERIAL 0
+#endif
 #include <AP_Common/AP_FWVersion.h>
 #include <AP_Arming/AP_Arming.h>
 #include <AP_Frsky_Telem/AP_Frsky_Parameters.h>

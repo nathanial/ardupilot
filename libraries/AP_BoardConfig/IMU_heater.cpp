@@ -18,7 +18,9 @@
 
 #include <AP_HAL/AP_HAL.h>
 #include <AP_Math/AP_Math.h>
+#if HAL_WITH_IO_MCU
 #include <AP_IOMCU/AP_IOMCU.h>
+#endif
 #include <AP_Logger/AP_Logger.h>
 #include <GCS_MAVLink/GCS.h>
 #include "AP_BoardConfig.h"

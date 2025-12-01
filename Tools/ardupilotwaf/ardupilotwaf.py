@@ -19,9 +19,6 @@ SOURCE_EXTS = [
 
 COMMON_VEHICLE_DEPENDENT_CAN_LIBRARIES = [
     'AP_CANManager',
-    'AP_KDECAN',
-    'AP_PiccoloCAN',
-    'AP_PiccoloCAN/piccolo_protocol',
 ]
 
 COMMON_VEHICLE_DEPENDENT_LIBRARIES = [
@@ -79,14 +76,12 @@ COMMON_VEHICLE_DEPENDENT_LIBRARIES = [
     'AP_ServoRelayEvents',
     'AP_Volz_Protocol',
     'AP_SBusOut',
-    'AP_IOMCU',
     'AP_Parachute',
     'AP_RAMTRON',
     'AP_RCProtocol',
     'AP_Radio',
     'AP_TempCalibration',
     'AP_VisualOdom',
-    'AP_BLHeli',
     'AP_ROMFS',
     'AP_Proximity',
     'AP_Gripper',
@@ -116,7 +111,6 @@ COMMON_VEHICLE_DEPENDENT_LIBRARIES = [
     'AP_WheelEncoder',
     'AP_ExternalAHRS',
     'AP_VideoTX',
-    'AP_FETtecOneWire',
     'AP_TemperatureSensor',
     'AP_Torqeedo',
     'AP_CustomRotations',
@@ -267,7 +261,6 @@ def ap_get_all_libraries(bld):
             continue
         libraries.append(name)
     libraries.extend(['AP_HAL'])
-    libraries.append('AP_PiccoloCAN/piccolo_protocol')
     return libraries
 
 @conf

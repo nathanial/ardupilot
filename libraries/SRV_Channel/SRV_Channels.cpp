@@ -24,12 +24,22 @@
 
 #include "SRV_Channel.h"
 #include <AP_Logger/AP_Logger.h>
+#if __has_include(<AP_KDECAN/AP_KDECAN.h>)
 #include <AP_KDECAN/AP_KDECAN.h>
+#else
+#undef AP_KDECAN_ENABLED
+#define AP_KDECAN_ENABLED 0
+#endif
 
 #if HAL_MAX_CAN_PROTOCOL_DRIVERS
   #include <AP_CANManager/AP_CANManager.h>
   #include <AP_DroneCAN/AP_DroneCAN.h>
+  #if __has_include(<AP_PiccoloCAN/AP_PiccoloCAN.h>)
   #include <AP_PiccoloCAN/AP_PiccoloCAN.h>
+  #else
+  #undef HAL_PICCOLO_CAN_ENABLE
+  #define HAL_PICCOLO_CAN_ENABLE 0
+  #endif
 #endif
 
 #if NUM_SERVO_CHANNELS == 0

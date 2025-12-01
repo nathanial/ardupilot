@@ -20,8 +20,18 @@
 #include <AP_Volz_Protocol/AP_Volz_Protocol.h>
 #include <AP_RobotisServo/AP_RobotisServo.h>
 #include <AP_SBusOut/AP_SBusOut.h>
+#if __has_include(<AP_BLHeli/AP_BLHeli.h>)
 #include <AP_BLHeli/AP_BLHeli.h>
+#else
+#undef HAL_SUPPORT_RCOUT_SERIAL
+#define HAL_SUPPORT_RCOUT_SERIAL 0
+#endif
+#if __has_include(<AP_FETtecOneWire/AP_FETtecOneWire.h>)
 #include <AP_FETtecOneWire/AP_FETtecOneWire.h>
+#else
+#undef AP_FETTEC_ONEWIRE_ENABLED
+#define AP_FETTEC_ONEWIRE_ENABLED 0
+#endif
 
 #include "SRV_Channel_config.h"
 

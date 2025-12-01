@@ -1,7 +1,12 @@
 #pragma once
 
 #include <AP_HAL/AP_HAL_Boards.h>
+#if __has_include(<AP_PiccoloCAN/AP_PiccoloCAN_config.h>)
 #include <AP_PiccoloCAN/AP_PiccoloCAN_config.h>
+#else
+#undef HAL_PICCOLO_CAN_ENABLE
+#define HAL_PICCOLO_CAN_ENABLE 0
+#endif
 
 #ifndef HAL_GENERATOR_ENABLED
 #define HAL_GENERATOR_ENABLED HAL_PROGRAM_SIZE_LIMIT_KB > 2048

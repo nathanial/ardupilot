@@ -927,7 +927,7 @@ singleton AP_Winch method release_length void float'skip_check
 singleton AP_Winch method set_desired_rate void float'skip_check
 singleton AP_Winch method get_rate_max float
 
-include AP_IOMCU/AP_IOMCU.h
+include AP_IOMCU/AP_IOMCU.h depends HAL_WITH_IO_MCU
 singleton AP_IOMCU depends HAL_WITH_IO_MCU
 singleton AP_IOMCU rename iomcu
 singleton AP_IOMCU method healthy boolean

@@ -19,7 +19,12 @@
 #include "AP_CANManager.h"
 
 #include <AP_DroneCAN/AP_DroneCAN.h>
+#if __has_include(<AP_PiccoloCAN/AP_PiccoloCAN.h>)
 #include <AP_PiccoloCAN/AP_PiccoloCAN.h>
+#else
+#undef HAL_PICCOLO_CAN_ENABLE
+#define HAL_PICCOLO_CAN_ENABLE 0
+#endif
 
 // table of user settable CAN bus parameters
 const AP_Param::GroupInfo AP_CANManager::CANDriver_Params::var_info[] = {

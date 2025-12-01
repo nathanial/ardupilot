@@ -25,9 +25,19 @@
 #include <AP_BoardConfig/AP_BoardConfig.h>
 #include <AP_Vehicle/AP_Vehicle_Type.h>
 #include <AP_DroneCAN/AP_DroneCAN.h>
+#if __has_include(<AP_KDECAN/AP_KDECAN.h>)
 #include <AP_KDECAN/AP_KDECAN.h>
+#else
+#undef AP_KDECAN_ENABLED
+#define AP_KDECAN_ENABLED 0
+#endif
 #include <AP_SerialManager/AP_SerialManager.h>
+#if __has_include(<AP_PiccoloCAN/AP_PiccoloCAN.h>)
 #include <AP_PiccoloCAN/AP_PiccoloCAN.h>
+#else
+#undef HAL_PICCOLO_CAN_ENABLE
+#define HAL_PICCOLO_CAN_ENABLE 0
+#endif
 #include <AP_EFI/AP_EFI_NWPMU.h>
 #include <GCS_MAVLink/GCS.h>
 #if CONFIG_HAL_BOARD == HAL_BOARD_LINUX

@@ -38,7 +38,12 @@
 #include <AP_Camera/AP_Camera.h>
 #include <AP_Gripper/AP_Gripper.h>
 #include <AC_Sprayer/AC_Sprayer.h>
+#if __has_include(<AP_BLHeli/AP_BLHeli.h>)
 #include <AP_BLHeli/AP_BLHeli.h>
+#else
+#undef HAL_SUPPORT_RCOUT_SERIAL
+#define HAL_SUPPORT_RCOUT_SERIAL 0
+#endif
 #include <AP_Relay/AP_Relay.h>
 #include <AP_RSSI/AP_RSSI.h>
 #include <AP_RTC/AP_RTC.h>
@@ -64,7 +69,12 @@
 #include <AP_Frsky_Telem/AP_Frsky_Telem.h>
 #include <RC_Channel/RC_Channel.h>
 #include <AP_VisualOdom/AP_VisualOdom.h>
+#if __has_include(<AP_KDECAN/AP_KDECAN.h>)
 #include <AP_KDECAN/AP_KDECAN.h>
+#else
+#undef AP_KDECAN_ENABLED
+#define AP_KDECAN_ENABLED 0
+#endif
 #include <AP_LandingGear/AP_LandingGear.h>
 #include <AP_Landing/AP_Landing_config.h>
 #include <AP_Generator/AP_Generator_Loweheiser.h>
@@ -93,7 +103,12 @@
   #include <AP_CANManager/AP_CANManager.h>
   #include <AP_Common/AP_Common.h>
 
+  #if __has_include(<AP_PiccoloCAN/AP_PiccoloCAN.h>)
   #include <AP_PiccoloCAN/AP_PiccoloCAN.h>
+  #else
+  #undef HAL_PICCOLO_CAN_ENABLE
+  #define HAL_PICCOLO_CAN_ENABLE 0
+  #endif
   #include <AP_DroneCAN/AP_DroneCAN.h>
 #endif
 

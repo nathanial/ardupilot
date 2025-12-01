@@ -16,7 +16,9 @@
 
 #include "RGBLed.h"
 #include <AP_Common/AP_Common.h>
+#if HAL_WITH_IO_MCU
 #include <AP_IOMCU/AP_IOMCU.h>
+#endif
 
 #if HAL_WITH_IO_MCU && AP_IOMCU_PROFILED_SUPPORT_ENABLED
 

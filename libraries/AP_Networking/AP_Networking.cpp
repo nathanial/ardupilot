@@ -18,7 +18,9 @@ extern const AP_HAL::HAL& hal;
 #include <hal_mii.h>
 #endif
 
+#if AP_NETWORKING_NEED_LWIP
 #include <lwipopts.h>
+#endif
 #include <errno.h>
 
 
@@ -469,6 +471,7 @@ const char *AP_Networking::address_to_str(uint32_t addr)
     return SocketAPM::inet_addr_to_str(addr, buf, sizeof(buf));
 }
 
+#if AP_NETWORKING_NEED_LWIP
 #ifdef LWIP_PLATFORM_ASSERT
 void ap_networking_platform_assert(const char *msg, int line)
 {
@@ -486,6 +489,7 @@ struct netif *ap_networking_routing_hook(const struct ip4_addr *dest_ip)
     return AP::network().routing_hook(ntohl(dest_ip->addr));
 }
 #endif
+#endif // AP_NETWORKING_NEED_LWIP
 
 /*
   check for custom routes

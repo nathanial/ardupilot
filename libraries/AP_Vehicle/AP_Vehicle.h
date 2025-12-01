@@ -68,7 +68,12 @@
 #include <AC_Fence/AC_Fence.h>
 #include <AP_CheckFirmware/AP_CheckFirmware.h>
 #include <Filter/LowPassFilter.h>
+#if __has_include(<AP_KDECAN/AP_KDECAN.h>)
 #include <AP_KDECAN/AP_KDECAN.h>
+#else
+#undef AP_KDECAN_ENABLED
+#define AP_KDECAN_ENABLED 0
+#endif
 #include <Filter/AP_Filter.h>
 #include <AP_Stats/AP_Stats.h>              // statistics library
 #include <AP_DDS/AP_DDS_config.h>

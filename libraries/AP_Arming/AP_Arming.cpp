@@ -50,14 +50,24 @@
 #include <AP_Relay/AP_Relay.h>
 #include <RC_Channel/RC_Channel.h>
 #include <AP_Button/AP_Button.h>
+#if __has_include(<AP_FETtecOneWire/AP_FETtecOneWire.h>)
 #include <AP_FETtecOneWire/AP_FETtecOneWire.h>
+#else
+#undef AP_FETTEC_ONEWIRE_ENABLED
+#define AP_FETTEC_ONEWIRE_ENABLED 0
+#endif
 #include <AP_RPM/AP_RPM.h>
 #include <AP_Mount/AP_Mount.h>
 #include <AP_OpenDroneID/AP_OpenDroneID.h>
 #include <AP_SerialManager/AP_SerialManager.h>
 #include <AP_Vehicle/AP_Vehicle_Type.h>
 #include <AP_Scheduler/AP_Scheduler.h>
+#if __has_include(<AP_KDECAN/AP_KDECAN.h>)
 #include <AP_KDECAN/AP_KDECAN.h>
+#else
+#undef AP_KDECAN_ENABLED
+#define AP_KDECAN_ENABLED 0
+#endif
 #include <AP_Vehicle/AP_Vehicle.h>
 #include <AP_ICEngine/AP_ICEngine.h>
 
@@ -66,7 +76,12 @@
   #include <AP_Common/AP_Common.h>
   #include <AP_Vehicle/AP_Vehicle_Type.h>
 
+  #if __has_include(<AP_PiccoloCAN/AP_PiccoloCAN.h>)
   #include <AP_PiccoloCAN/AP_PiccoloCAN.h>
+  #else
+  #undef HAL_PICCOLO_CAN_ENABLE
+  #define HAL_PICCOLO_CAN_ENABLE 0
+  #endif
   #include <AP_DroneCAN/AP_DroneCAN.h>
 #endif
 
