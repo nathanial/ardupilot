@@ -10,7 +10,7 @@ echo "=== Cleaning build directory ==="
 echo "=== Configuring for SITL ==="
 ./waf configure --board sitl
 
-VEHICLES="copter plane heli rover sub blimp antennatracker"
+VEHICLES="copter plane heli rover sub blimp"
 
 for vehicle in $VEHICLES; do
     echo "=== Building $vehicle ==="

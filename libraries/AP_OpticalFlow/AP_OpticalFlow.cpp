@@ -3,15 +3,63 @@
 
 #if AP_OPTICALFLOW_ENABLED
 
+#if __has_include("AP_OpticalFlow_Onboard.h")
 #include "AP_OpticalFlow_Onboard.h"
+#else
+#undef AP_OPTICALFLOW_ONBOARD_ENABLED
+#define AP_OPTICALFLOW_ONBOARD_ENABLED 0
+#endif
+
 #include "AP_OpticalFlow_SITL.h"
+
+#if __has_include("AP_OpticalFlow_Pixart.h")
 #include "AP_OpticalFlow_Pixart.h"
+#else
+#undef AP_OPTICALFLOW_PIXART_ENABLED
+#define AP_OPTICALFLOW_PIXART_ENABLED 0
+#endif
+
+#if __has_include("AP_OpticalFlow_PX4Flow.h")
 #include "AP_OpticalFlow_PX4Flow.h"
+#else
+#undef AP_OPTICALFLOW_PX4FLOW_ENABLED
+#define AP_OPTICALFLOW_PX4FLOW_ENABLED 0
+#endif
+
+#if __has_include("AP_OpticalFlow_CXOF.h")
 #include "AP_OpticalFlow_CXOF.h"
+#else
+#undef AP_OPTICALFLOW_CXOF_ENABLED
+#define AP_OPTICALFLOW_CXOF_ENABLED 0
+#endif
+
+#if __has_include("AP_OpticalFlow_MAV.h")
 #include "AP_OpticalFlow_MAV.h"
+#else
+#undef AP_OPTICALFLOW_MAV_ENABLED
+#define AP_OPTICALFLOW_MAV_ENABLED 0
+#endif
+
+#if __has_include("AP_OpticalFlow_HereFlow.h")
 #include "AP_OpticalFlow_HereFlow.h"
+#else
+#undef AP_OPTICALFLOW_HEREFLOW_ENABLED
+#define AP_OPTICALFLOW_HEREFLOW_ENABLED 0
+#endif
+
+#if __has_include("AP_OpticalFlow_MSP.h")
 #include "AP_OpticalFlow_MSP.h"
+#else
+#undef HAL_MSP_OPTICALFLOW_ENABLED
+#define HAL_MSP_OPTICALFLOW_ENABLED 0
+#endif
+
+#if __has_include("AP_OpticalFlow_UPFLOW.h")
 #include "AP_OpticalFlow_UPFLOW.h"
+#else
+#undef AP_OPTICALFLOW_UPFLOW_ENABLED
+#define AP_OPTICALFLOW_UPFLOW_ENABLED 0
+#endif
 #include <AP_Logger/AP_Logger.h>
 #include <GCS_MAVLink/GCS.h>
 #include <AP_AHRS/AP_AHRS.h>
@@ -176,6 +224,8 @@ void AP_OpticalFlow::init(uint32_t log_bit)
         backend = NEW_NOTHROW AP_OpticalFlow_SITL(*this);
         break;
 #endif  // AP_OPTICALFLOW_SITL_ENABLED
+    default:
+        break;
     }
 
     if (backend != nullptr) {

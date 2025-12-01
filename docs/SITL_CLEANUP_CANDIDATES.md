@@ -135,6 +135,38 @@ Code changes:
 2. **`libraries/AP_RangeFinder/AP_RangeFinder_config.h`** - Added `__has_include` check for MSP backend
 3. **`libraries/AP_DroneCAN/AP_DroneCAN.cpp`** - Added `__has_include` guard for AP_RangeFinder_DroneCAN with macro disabling
 
+### Files Modified (AP_OpticalFlow Hardware Driver Removal)
+
+Removed 17 hardware driver files from `libraries/AP_OpticalFlow/`, keeping only:
+- `AP_OpticalFlow.cpp/h` - Core library
+- `AP_OpticalFlow_Backend.cpp/h` - Base backend class
+- `AP_OpticalFlow_config.h` - Configuration
+- `AP_OpticalFlow_Calibrator.cpp/h` - Calibration
+- `AP_OpticalFlow_SITL.cpp/h` - SITL backend
+
+Code changes:
+1. **`libraries/AP_OpticalFlow/AP_OpticalFlow.cpp`** - Added `__has_include` guards with macro disabling for all hardware drivers, added `default:` case to switch
+2. **`libraries/AP_OpticalFlow/AP_OpticalFlow_config.h`** - Added `__has_include` check for MSP backend
+3. **`libraries/AP_DroneCAN/AP_DroneCAN.cpp`** - Added `__has_include` guard for AP_OpticalFlow_HereFlow
+
+### Files Modified (AP_Proximity Hardware Driver Removal)
+
+Removed 24 hardware driver files from `libraries/AP_Proximity/`, keeping only:
+- `AP_Proximity.cpp/h` - Core library
+- `AP_Proximity_Backend.cpp/h` - Base backend class
+- `AP_Proximity_Backend_Serial.cpp/h` - Serial backend base
+- `AP_Proximity_config.h` - Configuration
+- `AP_Proximity_Params.cpp/h` - Parameters
+- `AP_Proximity_Utils.cpp` - Utilities
+- `AP_Proximity_Boundary_3D.cpp/h` - Boundary processing
+- `LogStructure.h` - Logging
+- `AP_Proximity_SITL.cpp/h` - SITL backend
+- `AP_Proximity_AirSimSITL.cpp/h` - AirSim SITL backend
+
+Code changes:
+1. **`libraries/AP_Proximity/AP_Proximity.cpp`** - Added `__has_include` guards with macro disabling for all hardware drivers, added `default:` case to switch
+2. **`libraries/AP_DroneCAN/AP_DroneCAN.cpp`** - Added `__has_include` guard for AP_Proximity_DroneCAN
+
 ### Pattern Used
 
 For each removed library, includes were wrapped with `__has_include`:
@@ -159,11 +191,9 @@ The following sensor libraries contain hardware-specific drivers that could be r
 | `libraries/AP_Baro/` | ~34 files | AP_Baro_SITL.cpp/h |
 | `libraries/AP_GPS/` | ~19 files | AP_GPS_SITL.cpp/h |
 | `libraries/AP_InertialSensor/` | ~21 files | AP_InertialSensor_SITL.cpp/h |
-| `libraries/AP_OpticalFlow/` | ~11 files | AP_OpticalFlow_SITL.cpp/h |
-| `libraries/AP_Proximity/` | ~12 files | AP_Proximity_SITL.cpp/h |
 | `libraries/AP_BattMonitor/` | ~26 files | (uses Analog backend for SITL) |
 
-**Estimated total: ~163 additional hardware driver files**
+**Estimated total: ~140 additional hardware driver files**
 
 ---
 
@@ -211,7 +241,9 @@ The following sensor libraries contain hardware-specific drivers that could be r
 | Code Changes Required | AP_PiccoloCAN, AP_KDECAN, AP_IOMCU, AP_BLHeli, AP_FETtecOneWire, modules/lwip | ~10.4MB |
 | EKF2 Removal | libraries/AP_NavEKF2 | ~4.5MB |
 | Sensor Drivers | AP_RangeFinder hardware drivers (85 files) | ~500KB |
+| Sensor Drivers | AP_OpticalFlow hardware drivers (17 files) | ~150KB |
+| Sensor Drivers | AP_Proximity hardware drivers (24 files) | ~200KB |
 
 **Total saved: ~70MB+**
 
-**Potential additional savings:** Removing hardware drivers from remaining sensor libraries (AP_Compass, AP_Baro, AP_GPS, AP_InertialSensor, AP_OpticalFlow, AP_Proximity, AP_BattMonitor) could save an additional ~2-3MB and significantly simplify the codebase for understanding.
+**Potential additional savings:** Removing hardware drivers from remaining sensor libraries (AP_Compass, AP_Baro, AP_GPS, AP_InertialSensor, AP_BattMonitor) could save an additional ~2MB and significantly simplify the codebase for understanding.

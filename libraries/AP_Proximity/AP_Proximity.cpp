@@ -17,20 +17,92 @@
 
 #if HAL_PROXIMITY_ENABLED
 #include "AP_Proximity_Backend.h"
+#if __has_include("AP_Proximity_RPLidarA2.h")
 #include "AP_Proximity_RPLidarA2.h"
+#else
+#undef AP_PROXIMITY_RPLIDARA2_ENABLED
+#define AP_PROXIMITY_RPLIDARA2_ENABLED 0
+#endif
+
+#if __has_include("AP_Proximity_TeraRangerTower.h")
 #include "AP_Proximity_TeraRangerTower.h"
+#else
+#undef AP_PROXIMITY_TERARANGERTOWER_ENABLED
+#define AP_PROXIMITY_TERARANGERTOWER_ENABLED 0
+#endif
+
+#if __has_include("AP_Proximity_TeraRangerTowerEvo.h")
 #include "AP_Proximity_TeraRangerTowerEvo.h"
+#else
+#undef AP_PROXIMITY_TERARANGERTOWEREVO_ENABLED
+#define AP_PROXIMITY_TERARANGERTOWEREVO_ENABLED 0
+#endif
+
+#if __has_include("AP_Proximity_RangeFinder.h")
 #include "AP_Proximity_RangeFinder.h"
+#else
+#undef AP_PROXIMITY_RANGEFINDER_ENABLED
+#define AP_PROXIMITY_RANGEFINDER_ENABLED 0
+#endif
+
+#if __has_include("AP_Proximity_MAV.h")
 #include "AP_Proximity_MAV.h"
+#else
+#undef AP_PROXIMITY_MAV_ENABLED
+#define AP_PROXIMITY_MAV_ENABLED 0
+#endif
+
+#if __has_include("AP_Proximity_LightWareSF40C.h")
 #include "AP_Proximity_LightWareSF40C.h"
+#else
+#undef AP_PROXIMITY_LIGHTWARE_SF40C_ENABLED
+#define AP_PROXIMITY_LIGHTWARE_SF40C_ENABLED 0
+#endif
+
+#if __has_include("AP_Proximity_LightWareSF45B.h")
 #include "AP_Proximity_LightWareSF45B.h"
+#else
+#undef AP_PROXIMITY_LIGHTWARE_SF45B_ENABLED
+#define AP_PROXIMITY_LIGHTWARE_SF45B_ENABLED 0
+#endif
+
 #include "AP_Proximity_SITL.h"
 #include "AP_Proximity_AirSimSITL.h"
+
+#if __has_include("AP_Proximity_Cygbot_D1.h")
 #include "AP_Proximity_Cygbot_D1.h"
+#else
+#undef AP_PROXIMITY_CYGBOT_ENABLED
+#define AP_PROXIMITY_CYGBOT_ENABLED 0
+#endif
+
+#if __has_include("AP_Proximity_DroneCAN.h")
 #include "AP_Proximity_DroneCAN.h"
+#else
+#undef AP_PROXIMITY_DRONECAN_ENABLED
+#define AP_PROXIMITY_DRONECAN_ENABLED 0
+#endif
+
+#if __has_include("AP_Proximity_Scripting.h")
 #include "AP_Proximity_Scripting.h"
+#else
+#undef AP_PROXIMITY_SCRIPTING_ENABLED
+#define AP_PROXIMITY_SCRIPTING_ENABLED 0
+#endif
+
+#if __has_include("AP_Proximity_LD06.h")
 #include "AP_Proximity_LD06.h"
+#else
+#undef AP_PROXIMITY_LD06_ENABLED
+#define AP_PROXIMITY_LD06_ENABLED 0
+#endif
+
+#if __has_include("AP_Proximity_MR72_CAN.h")
 #include "AP_Proximity_MR72_CAN.h"
+#else
+#undef AP_PROXIMITY_MR72_DRIVER_ENABLED
+#define AP_PROXIMITY_MR72_DRIVER_ENABLED 0
+#endif
 
 
 #include <AP_Logger/AP_Logger.h>
@@ -268,6 +340,8 @@ void AP_Proximity::init()
             }
             break;
 #endif
+        default:
+            break;
         }
 
         if (drivers[instance] != nullptr) {

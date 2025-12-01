@@ -32,7 +32,12 @@
 #include <AP_Vehicle/AP_Vehicle.h>
 #include <AP_BattMonitor/AP_BattMonitor_DroneCAN.h>
 #include <AP_Airspeed/AP_Airspeed_DroneCAN.h>
+#if __has_include(<AP_OpticalFlow/AP_OpticalFlow_HereFlow.h>)
 #include <AP_OpticalFlow/AP_OpticalFlow_HereFlow.h>
+#else
+#undef AP_OPTICALFLOW_HEREFLOW_ENABLED
+#define AP_OPTICALFLOW_HEREFLOW_ENABLED 0
+#endif
 #if __has_include(<AP_RangeFinder/AP_RangeFinder_DroneCAN.h>)
 #include <AP_RangeFinder/AP_RangeFinder_DroneCAN.h>
 #else
@@ -46,7 +51,12 @@
 #include <AP_BattMonitor/AP_BattMonitor_DroneCAN.h>
 #include <AP_Compass/AP_Compass_DroneCAN.h>
 #include <AP_Airspeed/AP_Airspeed_DroneCAN.h>
+#if __has_include(<AP_Proximity/AP_Proximity_DroneCAN.h>)
 #include <AP_Proximity/AP_Proximity_DroneCAN.h>
+#else
+#undef AP_PROXIMITY_DRONECAN_ENABLED
+#define AP_PROXIMITY_DRONECAN_ENABLED 0
+#endif
 #include <SRV_Channel/SRV_Channel.h>
 #include <AP_ADSB/AP_ADSB.h>
 #include "AP_DroneCAN_DNA_Server.h"
