@@ -43,38 +43,48 @@ This document tracks potential files/directories that could be removed for a SIT
 - `modules/gbenchmark/` - Google Benchmark (empty)
 - `libraries/AP_GyroFFT/CMSIS_5/` - ARM math library
 
+### Libraries (Medium Confidence)
+- `libraries/AP_HAL_Linux/` - Linux embedded HAL (924K) - SITL uses AP_HAL_SITL, all includes guarded
+- `libraries/AP_ONVIF/` - ONVIF camera protocol (2.8M) - opt-in only via --enable-onvif flag
+
 ### Other
 - `benchmarks/` - Benchmark stubs
 
 ---
 
-## High Confidence - Safe to Remove
+## High Confidence - Already Removed
 
-| Item | Size | Reason |
+These items from the original "High Confidence" list have been removed:
+
+| Item | Size | Status |
 |------|------|--------|
-| `Tools/Linux_HAL_Essentials/` | 328K | PRU/devicetree files for BeagleBone, not needed for SITL |
-| `Tools/Frame_params/` | 708K | Hardware frame parameters for specific drones |
-| `Tools/cameras_gimbals/` | 32K | Camera/gimbal hardware parameters |
-| `Tools/FilterTestTool/` | 44K | Standalone filter testing tool |
-| `Tools/terrain-tools/` | 20K | Terrain data generation tools |
-| `Tools/mavproxy_modules/` | 40K | MAVProxy extensions (external tool) |
+| `Tools/Linux_HAL_Essentials/` | 328K | ✅ Removed |
+| `Tools/Frame_params/` | 708K | ✅ Removed |
+| `Tools/cameras_gimbals/` | 32K | ✅ Removed |
+| `Tools/FilterTestTool/` | 44K | ✅ Removed |
+| `Tools/terrain-tools/` | 20K | ✅ Removed |
+| `Tools/mavproxy_modules/` | 40K | ✅ Removed |
 
 **Note:** `libraries/AP_HAL_Empty/` is referenced by AP_HAL_SITL and must be kept.
 
 ---
 
-## Medium Confidence - Likely Safe
+## Cannot Remove Without Code Changes
 
-| Item | Size | Reason |
-|------|------|--------|
-| `libraries/AP_HAL_Linux/` | 924K | Linux embedded HAL - SITL uses AP_HAL_SITL instead. Need to verify no cross-dependencies |
-| `libraries/AP_ONVIF/` | 2.8M | ONVIF camera protocol (IP cameras) - likely disabled for SITL |
-| `libraries/AP_PiccoloCAN/` | 1.3M | Piccolo CAN protocol for specific ESCs |
-| `libraries/AP_IOMCU/` | ~100K | IO co-processor communication (Pixhawk-specific) |
-| `libraries/AP_BLHeli/` | ~100K | BLHeli ESC passthrough (hardware ESCs) |
-| `libraries/AP_FETtecOneWire/` | ~50K | FETtec ESC protocol |
-| `libraries/AP_KDECAN/` | ~50K | KDE CAN ESCs |
-| `modules/lwip/` | 8.8M | Lightweight IP stack - check if SITL networking uses this |
+These libraries compile to nothing or are disabled for SITL, but have unguarded includes or build system dependencies that prevent simple removal:
+
+| Item | Size | Blocker |
+|------|------|---------|
+| `libraries/AP_PiccoloCAN/` | 1.3M | Unguarded includes in AP_CANManager, AP_Generator, AP_EFI; listed in ardupilotwaf.py |
+| `libraries/AP_IOMCU/` | ~100K | Listed in COMMON_VEHICLE_DEPENDENT_LIBRARIES in ardupilotwaf.py |
+| `libraries/AP_BLHeli/` | ~100K | Listed in COMMON_VEHICLE_DEPENDENT_LIBRARIES in ardupilotwaf.py |
+| `libraries/AP_FETtecOneWire/` | ~50K | Listed in COMMON_VEHICLE_DEPENDENT_LIBRARIES in ardupilotwaf.py |
+| `libraries/AP_KDECAN/` | ~50K | Unguarded includes in AP_CANManager; listed in ardupilotwaf.py |
+| `modules/lwip/` | 8.8M | AP_Networking.cpp includes lwipopts.h unconditionally when AP_NETWORKING_ENABLED (true for SITL) |
+
+**To remove these**, you would need to:
+1. Add compile guards around the includes
+2. Remove entries from `Tools/ardupilotwaf/ardupilotwaf.py` library lists
 
 ---
 
@@ -109,3 +119,11 @@ This document tracks potential files/directories that could be removed for a SIT
 
 - Building all vehicles in parallel (`./waf plane copter ...`) has a pre-existing linker issue with ArduPlane
 - Use `./build_all.sh` to build vehicles sequentially instead
+
+## Removal Summary
+
+| Session | Items Removed | Approx Size |
+|---------|---------------|-------------|
+| Initial | HALs, Tools, Modules, etc. | ~50MB+ |
+| High Confidence | 6 Tools directories | ~1.2MB |
+| Medium Confidence | AP_HAL_Linux, AP_ONVIF | ~3.7MB |
