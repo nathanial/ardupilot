@@ -26,12 +26,7 @@
 #include <AP_CANManager/AP_CANManager.h>
 
 #include <AP_Arming/AP_Arming.h>
-#if __has_include(<AP_GPS/AP_GPS_DroneCAN.h>)
 #include <AP_GPS/AP_GPS_DroneCAN.h>
-#else
-#undef AP_GPS_DRONECAN_ENABLED
-#define AP_GPS_DRONECAN_ENABLED 0
-#endif
 #include <AP_Compass/AP_Compass_DroneCAN.h>
 #include <AP_Baro/AP_Baro_DroneCAN.h>
 #include <AP_Vehicle/AP_Vehicle.h>
@@ -51,7 +46,11 @@
 #endif
 #include <AP_RCProtocol/AP_RCProtocol_DroneCAN.h>
 #include <AP_EFI/AP_EFI_DroneCAN.h>
+#include <AP_GPS/AP_GPS_DroneCAN.h>
 #include <AP_GPS/AP_GPS.h>
+#include <AP_BattMonitor/AP_BattMonitor_DroneCAN.h>
+#include <AP_Compass/AP_Compass_DroneCAN.h>
+#include <AP_Airspeed/AP_Airspeed_DroneCAN.h>
 #if __has_include(<AP_Proximity/AP_Proximity_DroneCAN.h>)
 #include <AP_Proximity/AP_Proximity_DroneCAN.h>
 #else

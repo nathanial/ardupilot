@@ -167,28 +167,6 @@ Code changes:
 1. **`libraries/AP_Proximity/AP_Proximity.cpp`** - Added `__has_include` guards with macro disabling for all hardware drivers, added `default:` case to switch
 2. **`libraries/AP_DroneCAN/AP_DroneCAN.cpp`** - Added `__has_include` guard for AP_Proximity_DroneCAN
 
-### Files Modified (AP_GPS Hardware Driver Removal)
-
-Removed 26 hardware driver files (13 drivers) from `libraries/AP_GPS/`, keeping only:
-- `AP_GPS.cpp/h` - Core library
-- `GPS_Backend.cpp/h` - Base backend class
-- `AP_GPS_config.h` - Configuration
-- `AP_GPS_Params.cpp` - Parameters
-- `AP_GPS_FixType.h` - Fix type enum
-- `GPS_detect_state.h` - Detection state
-- `LogStructure.h` - Logging
-- `LogStructure_SBP.h` - SBP logging
-- `RTCM3_Parser.cpp/h` - RTK support
-- `MovingBase.cpp/h` - RTK moving baseline
-- `AP_GPS_Blended.cpp/h` - Multi-GPS blending
-- `AP_GPS_SITL.cpp/h` - SITL backend
-
-Deleted drivers: NOVA, ERB, GSOF, NMEA, SBF, SBP, SBP2, SIRF, UBLOX, MAV, MSP, ExternalAHRS, DroneCAN
-
-Code changes:
-1. **`libraries/AP_GPS/AP_GPS.cpp`** - Added `__has_include` guards with macro disabling for all hardware drivers
-2. **`libraries/AP_DroneCAN/AP_DroneCAN.cpp`** - Added `__has_include` guard for AP_GPS_DroneCAN
-
 ### Pattern Used
 
 For each removed library, includes were wrapped with `__has_include`:
@@ -211,10 +189,11 @@ The following sensor libraries contain hardware-specific drivers that could be r
 |---------|---------------------|--------------|
 | `libraries/AP_Compass/` | ~40 files | AP_Compass_SITL.cpp/h |
 | `libraries/AP_Baro/` | ~34 files | AP_Baro_SITL.cpp/h |
+| `libraries/AP_GPS/` | ~19 files | AP_GPS_SITL.cpp/h |
 | `libraries/AP_InertialSensor/` | ~21 files | AP_InertialSensor_SITL.cpp/h |
 | `libraries/AP_BattMonitor/` | ~26 files | (uses Analog backend for SITL) |
 
-**Estimated total: ~121 additional hardware driver files**
+**Estimated total: ~140 additional hardware driver files**
 
 ---
 
@@ -264,8 +243,7 @@ The following sensor libraries contain hardware-specific drivers that could be r
 | Sensor Drivers | AP_RangeFinder hardware drivers (85 files) | ~500KB |
 | Sensor Drivers | AP_OpticalFlow hardware drivers (17 files) | ~150KB |
 | Sensor Drivers | AP_Proximity hardware drivers (24 files) | ~200KB |
-| Sensor Drivers | AP_GPS hardware drivers (26 files) | ~270KB |
 
-**Total saved: ~71MB+**
+**Total saved: ~70MB+**
 
-**Potential additional savings:** Removing hardware drivers from remaining sensor libraries (AP_Compass, AP_Baro, AP_InertialSensor, AP_BattMonitor) could save an additional ~1.5MB and significantly simplify the codebase for understanding.
+**Potential additional savings:** Removing hardware drivers from remaining sensor libraries (AP_Compass, AP_Baro, AP_GPS, AP_InertialSensor, AP_BattMonitor) could save an additional ~2MB and significantly simplify the codebase for understanding.
