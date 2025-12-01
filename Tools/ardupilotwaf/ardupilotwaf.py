@@ -39,7 +39,6 @@ COMMON_VEHICLE_DEPENDENT_LIBRARIES = [
     'AP_GPS',
     'AP_GSOF',
     'AP_HAL',
-    'AP_HAL_Empty',
     'AP_DDS',
     'AP_InertialSensor',
     'AP_Math',
@@ -267,7 +266,7 @@ def ap_get_all_libraries(bld):
         if name == 'SITL':
             continue
         libraries.append(name)
-    libraries.extend(['AP_HAL', 'AP_HAL_Empty'])
+    libraries.extend(['AP_HAL'])
     libraries.append('AP_PiccoloCAN/piccolo_protocol')
     return libraries
 

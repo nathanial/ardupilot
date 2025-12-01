@@ -18,7 +18,10 @@ _board = None
 
 # modify our search path:
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../libraries/AP_HAL_ChibiOS/hwdef/scripts'))
-import chibios_hwdef
+try:
+    import chibios_hwdef
+except ImportError:
+    chibios_hwdef = None
 import build_options
 
 class BoardMeta(type):
@@ -664,6 +667,8 @@ def add_dynamic_boards_linux():
 
 def add_dynamic_boards_from_hwdef_dir(base_type, hwdef_dir):
     '''add boards based on existence of hwdef.dat in subdirectory'''
+    if not os.path.exists(hwdef_dir):
+        return
     dirname, dirlist, filenames = next(os.walk(hwdef_dir))
     for d in dirlist:
         if d in _board_classes.keys():
@@ -675,7 +680,10 @@ def add_dynamic_boards_from_hwdef_dir(base_type, hwdef_dir):
 
 def add_dynamic_boards_esp32():
     '''add boards based on existence of hwdef.dat in subdirectories for ESP32'''
-    dirname, dirlist, filenames = next(os.walk('libraries/AP_HAL_ESP32/hwdef'))
+    esp32_hwdef_dir = 'libraries/AP_HAL_ESP32/hwdef'
+    if not os.path.exists(esp32_hwdef_dir):
+        return
+    dirname, dirlist, filenames = next(os.walk(esp32_hwdef_dir))
     for d in dirlist:
         if d in _board_classes.keys():
             continue
@@ -700,7 +708,10 @@ def is_board_based(board, cls):
 def get_ap_periph_boards():
     '''Add AP_Periph boards based on existence of periph keyword in hwdef.dat or board name'''
     list_ap = [s for s in list(_board_classes.keys()) if "periph" in s]
-    dirname, dirlist, filenames = next(os.walk('libraries/AP_HAL_ChibiOS/hwdef'))
+    hwdef_dir = 'libraries/AP_HAL_ChibiOS/hwdef'
+    if chibios_hwdef is None or not os.path.exists(hwdef_dir):
+        return list_ap
+    dirname, dirlist, filenames = next(os.walk(hwdef_dir))
     for d in dirlist:
         if d in list_ap:
             continue

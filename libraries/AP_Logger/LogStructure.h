@@ -142,7 +142,12 @@ const struct MultiplierStructure log_Multipliers[] = {
 #include <AC_Avoidance/LogStructure.h>
 #include <AP_ESC_Telem/LogStructure.h>
 #include <AP_AIS/LogStructure.h>
+#if CONFIG_HAL_BOARD == HAL_BOARD_CHIBIOS
 #include <AP_HAL_ChibiOS/LogStructure.h>
+#else
+#define LOG_STRUCTURE_FROM_HAL_CHIBIOS
+#define LOG_IDS_FROM_HAL_CHIBIOS
+#endif
 #include <AP_RPM/LogStructure.h>
 #include <AC_Fence/LogStructure.h>
 #include <AP_Landing/LogStructure.h>
@@ -1289,7 +1294,9 @@ enum LogMessages : uint8_t {
     LOG_IDS_FROM_SERVO_TELEM,
     LOG_IDS_FROM_ESC_TELEM,
     LOG_IDS_FROM_BATTMONITOR,
+#if CONFIG_HAL_BOARD == HAL_BOARD_CHIBIOS
     LOG_IDS_FROM_HAL_CHIBIOS,
+#endif
     LOG_IDS_FROM_MISSION,
 
     LOG_IDS_FROM_GPS,
