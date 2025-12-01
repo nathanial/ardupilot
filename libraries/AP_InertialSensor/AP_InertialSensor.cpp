@@ -22,22 +22,97 @@
 #endif
 #include <GCS_MAVLink/GCS.h>
 
+#if __has_include("AP_InertialSensor_BMI160.h")
 #include "AP_InertialSensor_BMI160.h"
+#else
+#undef AP_INERTIALSENSOR_BMI160_ENABLED
+#define AP_INERTIALSENSOR_BMI160_ENABLED 0
+#endif
+
+#if __has_include("AP_InertialSensor_BMI270.h")
 #include "AP_InertialSensor_BMI270.h"
+#else
+#undef AP_INERTIALSENSOR_BMI270_ENABLED
+#define AP_INERTIALSENSOR_BMI270_ENABLED 0
+#endif
+
 #include "AP_InertialSensor_Backend.h"
+
+#if __has_include("AP_InertialSensor_L3G4200D.h")
 #include "AP_InertialSensor_L3G4200D.h"
+#else
+#undef AP_INERTIALSENSOR_L3G4200D_ENABLED
+#define AP_INERTIALSENSOR_L3G4200D_ENABLED 0
+#endif
+
+#if __has_include("AP_InertialSensor_LSM9DS0.h")
 #include "AP_InertialSensor_LSM9DS0.h"
+#else
+#undef AP_INERTIALSENSOR_LSM9DS0_ENABLED
+#define AP_INERTIALSENSOR_LSM9DS0_ENABLED 0
+#endif
+
+#if __has_include("AP_InertialSensor_LSM9DS1.h")
 #include "AP_InertialSensor_LSM9DS1.h"
+#else
+#undef AP_INERTIALSENSOR_LSM9DS1_ENABLED
+#define AP_INERTIALSENSOR_LSM9DS1_ENABLED 0
+#endif
+
+#if __has_include("AP_InertialSensor_Invensense.h")
 #include "AP_InertialSensor_Invensense.h"
+#else
+#undef AP_INERTIALSENSOR_INVENSENSE_ENABLED
+#define AP_INERTIALSENSOR_INVENSENSE_ENABLED 0
+#endif
+
 #include "AP_InertialSensor_SITL.h"
+
+#if __has_include("AP_InertialSensor_BMI055.h")
 #include "AP_InertialSensor_BMI055.h"
+#else
+#undef AP_INERTIALSENSOR_BMI055_ENABLED
+#define AP_INERTIALSENSOR_BMI055_ENABLED 0
+#endif
+
+#if __has_include("AP_InertialSensor_BMI088.h")
 #include "AP_InertialSensor_BMI088.h"
+#else
+#undef AP_INERTIALSENSOR_BMI088_ENABLED
+#define AP_INERTIALSENSOR_BMI088_ENABLED 0
+#endif
+
+#if __has_include("AP_InertialSensor_Invensensev2.h")
 #include "AP_InertialSensor_Invensensev2.h"
+#else
+#undef AP_INERTIALSENSOR_INVENSENSEV2_ENABLED
+#define AP_INERTIALSENSOR_INVENSENSEV2_ENABLED 0
+#endif
+
+#if __has_include("AP_InertialSensor_ADIS1647x.h")
 #include "AP_InertialSensor_ADIS1647x.h"
+#else
+#undef AP_INERTIALSENSOR_ADIS1647X_ENABLED
+#define AP_INERTIALSENSOR_ADIS1647X_ENABLED 0
+#endif
+
 #include "AP_InertialSensor_ExternalAHRS.h"
+
+#if __has_include("AP_InertialSensor_Invensensev3.h")
 #include "AP_InertialSensor_Invensensev3.h"
+#else
+#undef AP_INERTIALSENSOR_INVENSENSEV3_ENABLED
+#define AP_INERTIALSENSOR_INVENSENSEV3_ENABLED 0
+#endif
+
 #include "AP_InertialSensor_NONE.h"
+
+#if __has_include("AP_InertialSensor_SCHA63T.h")
 #include "AP_InertialSensor_SCHA63T.h"
+#else
+#undef AP_INERTIALSENSOR_SCHA63T_ENABLED
+#define AP_INERTIALSENSOR_SCHA63T_ENABLED 0
+#endif
 #include <AP_Scheduler/AP_Scheduler.h>
 
 /* Define INS_TIMING_DEBUG to track down scheduling issues with the main loop.

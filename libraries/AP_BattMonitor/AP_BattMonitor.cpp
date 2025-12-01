@@ -4,29 +4,166 @@
 
 #include "AP_BattMonitor.h"
 
+#if __has_include("AP_BattMonitor_Analog.h")
 #include "AP_BattMonitor_Analog.h"
+#else
+#undef AP_BATTERY_ANALOG_ENABLED
+#define AP_BATTERY_ANALOG_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_SMBus.h")
 #include "AP_BattMonitor_SMBus.h"
+#else
+#undef AP_BATTERY_SMBUS_ENABLED
+#define AP_BATTERY_SMBUS_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_SMBus_Solo.h")
 #include "AP_BattMonitor_SMBus_Solo.h"
+#else
+#undef AP_BATTERY_SMBUS_SOLO_ENABLED
+#define AP_BATTERY_SMBUS_SOLO_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_SMBus_Generic.h")
 #include "AP_BattMonitor_SMBus_Generic.h"
+#else
+#undef AP_BATTERY_SMBUS_GENERIC_ENABLED
+#define AP_BATTERY_SMBUS_GENERIC_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_SMBus_Maxell.h")
 #include "AP_BattMonitor_SMBus_Maxell.h"
+#else
+#undef AP_BATTERY_SMBUS_MAXELL_ENABLED
+#define AP_BATTERY_SMBUS_MAXELL_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_SMBus_Rotoye.h")
 #include "AP_BattMonitor_SMBus_Rotoye.h"
+#else
+#undef AP_BATTERY_SMBUS_ROTOYE_ENABLED
+#define AP_BATTERY_SMBUS_ROTOYE_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_Bebop.h")
 #include "AP_BattMonitor_Bebop.h"
+#else
+#undef AP_BATTERY_BEBOP_ENABLED
+#define AP_BATTERY_BEBOP_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_ESC.h")
 #include "AP_BattMonitor_ESC.h"
+#else
+#undef AP_BATTERY_ESC_ENABLED
+#define AP_BATTERY_ESC_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_SMBus_SUI.h")
 #include "AP_BattMonitor_SMBus_SUI.h"
+#else
+#undef AP_BATTERY_SMBUS_SUI_ENABLED
+#define AP_BATTERY_SMBUS_SUI_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_SMBus_NeoDesign.h")
 #include "AP_BattMonitor_SMBus_NeoDesign.h"
+#else
+#undef AP_BATTERY_SMBUS_NEODESIGN_ENABLED
+#define AP_BATTERY_SMBUS_NEODESIGN_ENABLED 0
+#endif
+
 #include "AP_BattMonitor_Sum.h"
+
+#if __has_include("AP_BattMonitor_FuelFlow.h")
 #include "AP_BattMonitor_FuelFlow.h"
+#else
+#undef AP_BATTERY_FUELFLOW_ENABLED
+#define AP_BATTERY_FUELFLOW_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_FuelLevel_PWM.h")
 #include "AP_BattMonitor_FuelLevel_PWM.h"
+#else
+#undef AP_BATTERY_FUELLEVEL_PWM_ENABLED
+#define AP_BATTERY_FUELLEVEL_PWM_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_Generator.h")
 #include "AP_BattMonitor_Generator.h"
+#else
+#undef AP_BATTERY_GENERATOR_ENABLED
+#define AP_BATTERY_GENERATOR_ENABLED 0
+#undef HAL_GENERATOR_ENABLED
+#define HAL_GENERATOR_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_EFI.h")
 #include "AP_BattMonitor_EFI.h"
+#else
+#undef AP_BATTERY_EFI_ENABLED
+#define AP_BATTERY_EFI_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_INA2xx.h")
 #include "AP_BattMonitor_INA2xx.h"
+#else
+#undef AP_BATTERY_INA2XX_ENABLED
+#define AP_BATTERY_INA2XX_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_INA239.h")
 #include "AP_BattMonitor_INA239.h"
+#else
+#undef AP_BATTERY_INA239_ENABLED
+#define AP_BATTERY_INA239_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_INA3221.h")
 #include "AP_BattMonitor_INA3221.h"
+#else
+#undef AP_BATTERY_INA3221_ENABLED
+#define AP_BATTERY_INA3221_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_LTC2946.h")
 #include "AP_BattMonitor_LTC2946.h"
+#else
+#undef AP_BATTERY_LTC2946_ENABLED
+#define AP_BATTERY_LTC2946_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_Torqeedo.h")
 #include "AP_BattMonitor_Torqeedo.h"
+#else
+#undef AP_BATTERY_TORQEEDO_ENABLED
+#define AP_BATTERY_TORQEEDO_ENABLED 0
+#undef HAL_TORQEEDO_ENABLED
+#define HAL_TORQEEDO_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_FuelLevel_Analog.h")
 #include "AP_BattMonitor_FuelLevel_Analog.h"
+#else
+#undef AP_BATTERY_FUELLEVEL_ANALOG_ENABLED
+#define AP_BATTERY_FUELLEVEL_ANALOG_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_Synthetic_Current.h")
 #include "AP_BattMonitor_Synthetic_Current.h"
+#else
+#undef AP_BATTERY_SYNTHETIC_CURRENT_ENABLED
+#define AP_BATTERY_SYNTHETIC_CURRENT_ENABLED 0
+#endif
+
+#if __has_include("AP_BattMonitor_AD7091R5.h")
 #include "AP_BattMonitor_AD7091R5.h"
+#else
+#undef AP_BATTERY_AD7091R5_ENABLED
+#define AP_BATTERY_AD7091R5_ENABLED 0
+#endif
+
 #include "AP_BattMonitor_Scripting.h"
 
 #include <AP_HAL/AP_HAL.h>

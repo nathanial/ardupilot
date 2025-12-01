@@ -18,20 +18,100 @@
 #include "AP_Compass_config.h"
 
 #include "AP_Compass_SITL.h"
+
+#if __has_include("AP_Compass_AK8963.h")
 #include "AP_Compass_AK8963.h"
+#else
+#undef AP_COMPASS_AK8963_ENABLED
+#define AP_COMPASS_AK8963_ENABLED 0
+#endif
+
 #include "AP_Compass_Backend.h"
+
+#if __has_include("AP_Compass_BMM150.h")
 #include "AP_Compass_BMM150.h"
+#else
+#undef AP_COMPASS_BMM150_ENABLED
+#define AP_COMPASS_BMM150_ENABLED 0
+#endif
+
+#if __has_include("AP_Compass_BMM350.h")
 #include "AP_Compass_BMM350.h"
+#else
+#undef AP_COMPASS_BMM350_ENABLED
+#define AP_COMPASS_BMM350_ENABLED 0
+#endif
+
+#if __has_include("AP_Compass_HMC5843.h")
 #include "AP_Compass_HMC5843.h"
+#else
+#undef AP_COMPASS_HMC5843_ENABLED
+#define AP_COMPASS_HMC5843_ENABLED 0
+#endif
+
+#if __has_include("AP_Compass_IIS2MDC.h")
 #include "AP_Compass_IIS2MDC.h"
+#else
+#undef AP_COMPASS_IIS2MDC_ENABLED
+#define AP_COMPASS_IIS2MDC_ENABLED 0
+#endif
+
+#if __has_include("AP_Compass_IST8308.h")
 #include "AP_Compass_IST8308.h"
+#else
+#undef AP_COMPASS_IST8308_ENABLED
+#define AP_COMPASS_IST8308_ENABLED 0
+#endif
+
+#if __has_include("AP_Compass_IST8310.h")
 #include "AP_Compass_IST8310.h"
+#else
+#undef AP_COMPASS_IST8310_ENABLED
+#define AP_COMPASS_IST8310_ENABLED 0
+#endif
+
+#if __has_include("AP_Compass_LSM303D.h")
 #include "AP_Compass_LSM303D.h"
+#else
+#undef AP_COMPASS_LSM303D_ENABLED
+#define AP_COMPASS_LSM303D_ENABLED 0
+#endif
+
+#if __has_include("AP_Compass_LSM9DS1.h")
 #include "AP_Compass_LSM9DS1.h"
+#else
+#undef AP_COMPASS_LSM9DS1_ENABLED
+#define AP_COMPASS_LSM9DS1_ENABLED 0
+#endif
+
+#if __has_include("AP_Compass_LIS3MDL.h")
 #include "AP_Compass_LIS3MDL.h"
+#else
+#undef AP_COMPASS_LIS3MDL_ENABLED
+#define AP_COMPASS_LIS3MDL_ENABLED 0
+#endif
+
+#if __has_include("AP_Compass_LIS2MDL.h")
 #include "AP_Compass_LIS2MDL.h"
+#else
+#undef AP_COMPASS_LIS2MDL_ENABLED
+#define AP_COMPASS_LIS2MDL_ENABLED 0
+#endif
+
+#if __has_include("AP_Compass_AK09916.h")
 #include "AP_Compass_AK09916.h"
+#else
+#undef AP_COMPASS_AK09916_ENABLED
+#define AP_COMPASS_AK09916_ENABLED 0
+#endif
+
+#if __has_include("AP_Compass_QMC5883L.h")
 #include "AP_Compass_QMC5883L.h"
+#else
+#undef AP_COMPASS_QMC5883L_ENABLED
+#define AP_COMPASS_QMC5883L_ENABLED 0
+#endif
+
 #if AP_COMPASS_DRONECAN_ENABLED
 #if __has_include("AP_Compass_DroneCAN.h")
 #include "AP_Compass_DroneCAN.h"
@@ -40,11 +120,41 @@
 #define AP_COMPASS_DRONECAN_ENABLED 0
 #endif
 #endif
+
+#if __has_include("AP_Compass_QMC5883P.h")
 #include "AP_Compass_QMC5883P.h"
+#else
+#undef AP_COMPASS_QMC5883P_ENABLED
+#define AP_COMPASS_QMC5883P_ENABLED 0
+#endif
+
+#if __has_include("AP_Compass_MMC3416.h")
 #include "AP_Compass_MMC3416.h"
+#else
+#undef AP_COMPASS_MMC3416_ENABLED
+#define AP_COMPASS_MMC3416_ENABLED 0
+#endif
+
+#if __has_include("AP_Compass_MMC5xx3.h")
 #include "AP_Compass_MMC5xx3.h"
+#else
+#undef AP_COMPASS_MMC5XX3_ENABLED
+#define AP_COMPASS_MMC5XX3_ENABLED 0
+#endif
+
+#if __has_include("AP_Compass_MAG3110.h")
 #include "AP_Compass_MAG3110.h"
+#else
+#undef AP_COMPASS_MAG3110_ENABLED
+#define AP_COMPASS_MAG3110_ENABLED 0
+#endif
+
+#if __has_include("AP_Compass_RM3100.h")
 #include "AP_Compass_RM3100.h"
+#else
+#undef AP_COMPASS_RM3100_ENABLED
+#define AP_COMPASS_RM3100_ENABLED 0
+#endif
 #if AP_COMPASS_MSP_ENABLED
 #include "AP_Compass_MSP.h"
 #endif

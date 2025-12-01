@@ -50,7 +50,11 @@
 #endif
 
 #ifndef AP_GPS_ERB_ENABLED
-  #define AP_GPS_ERB_ENABLED AP_GPS_BACKEND_DEFAULT_ENABLED
+  #if __has_include("AP_GPS_ERB.h")
+    #define AP_GPS_ERB_ENABLED AP_GPS_BACKEND_DEFAULT_ENABLED
+  #else
+    #define AP_GPS_ERB_ENABLED 0
+  #endif
 #endif
 
 #ifndef AP_GPS_GSOF_ENABLED
@@ -78,7 +82,11 @@
 #endif
 
 #ifndef AP_GPS_SBF_ENABLED
-  #define AP_GPS_SBF_ENABLED AP_GPS_BACKEND_DEFAULT_ENABLED
+  #if __has_include("AP_GPS_SBF.h")
+    #define AP_GPS_SBF_ENABLED AP_GPS_BACKEND_DEFAULT_ENABLED
+  #else
+    #define AP_GPS_SBF_ENABLED 0
+  #endif
 #endif
 
 #ifndef AP_GPS_SBP_ENABLED

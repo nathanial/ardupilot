@@ -28,16 +28,71 @@
 #include <climits>
 #include <AP_SerialManager/AP_SerialManager.h>
 
+#if __has_include("AP_GPS_NOVA.h")
 #include "AP_GPS_NOVA.h"
+#else
+#undef AP_GPS_NOVA_ENABLED
+#define AP_GPS_NOVA_ENABLED 0
+#endif
+
 #include "AP_GPS_Blended.h"
+
+#if __has_include("AP_GPS_ERB.h")
 #include "AP_GPS_ERB.h"
+#else
+#undef AP_GPS_ERB_ENABLED
+#define AP_GPS_ERB_ENABLED 0
+#endif
+
+#if __has_include("AP_GPS_GSOF.h")
 #include "AP_GPS_GSOF.h"
+#else
+#undef AP_GPS_GSOF_ENABLED
+#define AP_GPS_GSOF_ENABLED 0
+#endif
+
+#if __has_include("AP_GPS_NMEA.h")
 #include "AP_GPS_NMEA.h"
+#else
+#undef AP_GPS_NMEA_ENABLED
+#define AP_GPS_NMEA_ENABLED 0
+#endif
+
+#if __has_include("AP_GPS_SBF.h")
 #include "AP_GPS_SBF.h"
+#else
+#undef AP_GPS_SBF_ENABLED
+#define AP_GPS_SBF_ENABLED 0
+#endif
+
+#if __has_include("AP_GPS_SBP.h")
 #include "AP_GPS_SBP.h"
+#else
+#undef AP_GPS_SBP_ENABLED
+#define AP_GPS_SBP_ENABLED 0
+#endif
+
+#if __has_include("AP_GPS_SBP2.h")
 #include "AP_GPS_SBP2.h"
+#else
+#undef AP_GPS_SBP2_ENABLED
+#define AP_GPS_SBP2_ENABLED 0
+#endif
+
+#if __has_include("AP_GPS_SIRF.h")
 #include "AP_GPS_SIRF.h"
+#else
+#undef AP_GPS_SIRF_ENABLED
+#define AP_GPS_SIRF_ENABLED 0
+#endif
+
+#if __has_include("AP_GPS_UBLOX.h")
 #include "AP_GPS_UBLOX.h"
+#else
+#undef AP_GPS_UBLOX_ENABLED
+#define AP_GPS_UBLOX_ENABLED 0
+#endif
+
 #include "AP_GPS_MAV.h"
 #include "AP_GPS_MSP.h"
 #include "AP_GPS_ExternalAHRS.h"
