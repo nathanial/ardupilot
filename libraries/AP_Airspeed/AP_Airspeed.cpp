@@ -42,21 +42,43 @@
 #include <SRV_Channel/SRV_Channel.h>
 #include <AP_Logger/AP_Logger.h>
 #include <utility>
+#if AP_AIRSPEED_MS4525_ENABLED
 #include "AP_Airspeed_MS4525.h"
+#endif
+#if AP_AIRSPEED_MS5525_ENABLED
 #include "AP_Airspeed_MS5525.h"
+#endif
+#if AP_AIRSPEED_SDP3X_ENABLED
 #include "AP_Airspeed_SDP3X.h"
+#endif
+#if AP_AIRSPEED_DLVR_ENABLED
 #include "AP_Airspeed_DLVR.h"
+#endif
+#if AP_AIRSPEED_ANALOG_ENABLED
 #include "AP_Airspeed_analog.h"
+#endif
+#if AP_AIRSPEED_ASP5033_ENABLED
 #include "AP_Airspeed_ASP5033.h"
+#endif
 #include "AP_Airspeed_Backend.h"
 #if __has_include("AP_Airspeed_DroneCAN.h")
 #include "AP_Airspeed_DroneCAN.h"
 #endif
+#if AP_AIRSPEED_NMEA_ENABLED
 #include "AP_Airspeed_NMEA.h"
+#endif
+#if AP_AIRSPEED_MSP_ENABLED
 #include "AP_Airspeed_MSP.h"
+#endif
+#if AP_AIRSPEED_AUAV_ENABLED
 #include "AP_Airspeed_AUAV.h"
+#endif
+#if AP_AIRSPEED_EXTERNAL_ENABLED
 #include "AP_Airspeed_External.h"
+#endif
+#if AP_AIRSPEED_SITL_ENABLED
 #include "AP_Airspeed_SITL.h"
+#endif
 extern const AP_HAL::HAL &hal;
 
 #include <AP_Vehicle/AP_FixedWing.h>

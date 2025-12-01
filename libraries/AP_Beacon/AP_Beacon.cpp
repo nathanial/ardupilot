@@ -18,10 +18,18 @@
 #if AP_BEACON_ENABLED
 
 #include "AP_Beacon_Backend.h"
+#if AP_BEACON_POZYX_ENABLED
 #include "AP_Beacon_Pozyx.h"
+#endif
+#if AP_BEACON_MARVELMIND_ENABLED
 #include "AP_Beacon_Marvelmind.h"
+#endif
+#if AP_BEACON_NOOPLOOP_ENABLED
 #include "AP_Beacon_Nooploop.h"
+#endif
+#if AP_BEACON_SITL_ENABLED
 #include "AP_Beacon_SITL.h"
+#endif
 
 #include <AP_Common/Location.h>
 #include <AP_Logger/AP_Logger.h>
@@ -102,21 +110,28 @@ void AP_Beacon::init(void)
 
     // create backend
     switch ((Type)_type) {
+#if AP_BEACON_POZYX_ENABLED
     case Type::Pozyx:
         _driver = NEW_NOTHROW AP_Beacon_Pozyx(*this);
         break;
+#endif
+#if AP_BEACON_MARVELMIND_ENABLED
     case Type::Marvelmind:
         _driver = NEW_NOTHROW AP_Beacon_Marvelmind(*this);
         break;
+#endif
+#if AP_BEACON_NOOPLOOP_ENABLED
     case Type::Nooploop:
         _driver = NEW_NOTHROW AP_Beacon_Nooploop(*this);
         break;
+#endif
 #if AP_BEACON_SITL_ENABLED
     case Type::SITL:
         _driver = NEW_NOTHROW AP_Beacon_SITL(*this);
         break;
 #endif
     case Type::None:
+    default:
         break;
     }
 }

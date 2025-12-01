@@ -205,6 +205,55 @@ Code changes:
 
 Note: `AP_RADIO_ENABLED` already defaulted to `0`, all external references were properly guarded.
 
+### Files Modified (AP_Beacon Hardware Driver Removal)
+
+Removed 10 files from `libraries/AP_Beacon/` (3 hardware drivers + examples), keeping:
+- `AP_Beacon.cpp/h` - Core library
+- `AP_Beacon_Backend.cpp/h` - Base backend class
+- `AP_Beacon_config.h` - Configuration
+- `LogStructure.h` - Logging
+- `AP_Beacon_SITL.cpp/h` - SITL backend
+- `sitl/sitl_beacons.param` - SITL params
+
+Code changes:
+1. **`libraries/AP_Beacon/AP_Beacon_config.h`** - Set hardware backends (MARVELMIND, NOOPLOOP, POZYX) to 0
+2. **`libraries/AP_Beacon/AP_Beacon.cpp`** - Added `#if` guards around hardware driver includes and switch cases
+
+Files deleted:
+- `AP_Beacon_Marvelmind.cpp/h` - Marvelmind driver
+- `AP_Beacon_Nooploop.cpp/h` - Nooploop driver
+- `AP_Beacon_Pozyx.cpp/h` - Pozyx driver
+- `examples/AP_Marvelmind_test/` - Test example (4 files)
+
+### Files Modified (AP_Airspeed Hardware Driver Removal)
+
+Removed 18 files from `libraries/AP_Airspeed/` (7 I2C drivers + examples + models), keeping:
+- `AP_Airspeed.cpp/h` - Core library
+- `AP_Airspeed_Backend.cpp/h` - Base backend class
+- `AP_Airspeed_config.h` - Configuration
+- `AP_Airspeed_Params.cpp` - Parameters
+- `AP_Airspeed_Health.cpp` - Health checking
+- `Airspeed_Calibration.cpp` - Calibration
+- `AP_Airspeed_SITL.cpp/h` - SITL simulation
+- `AP_Airspeed_analog.cpp/h` - **Required for SITL** (TYPE_ANALOG default)
+- `AP_Airspeed_MSP.cpp/h` - MSP protocol
+- `AP_Airspeed_External.cpp/h` - External AHRS
+
+Code changes:
+1. **`libraries/AP_Airspeed/AP_Airspeed_config.h`** - Set hardware backends (MS4525, MS5525, SDP3X, DLVR, ASP5033, AUAV, NMEA) to 0
+2. **`libraries/AP_Airspeed/AP_Airspeed.cpp`** - Added `#if` guards around hardware driver includes
+
+Files deleted:
+- `AP_Airspeed_MS4525.cpp/h` - MS4525 I2C sensor
+- `AP_Airspeed_MS5525.cpp/h` - MS5525 I2C sensor
+- `AP_Airspeed_SDP3X.cpp/h` - SDP3X I2C sensor
+- `AP_Airspeed_DLVR.cpp/h` - DLVR I2C sensor
+- `AP_Airspeed_ASP5033.cpp/h` - ASP5033 I2C sensor
+- `AP_Airspeed_AUAV.cpp/h` - AUAV I2C sensor
+- `AP_Airspeed_NMEA.cpp/h` - NMEA water speed
+- `examples/Airspeed/` - Example (2 files)
+- `models/` - MATLAB models (2 files)
+
 ### Pattern Used
 
 For each removed library, includes were wrapped with `__has_include`:
@@ -240,6 +289,7 @@ The following sensor libraries had hardware-specific drivers removed using `__ha
 1. **AP_GPS_UBLOX** - SIM_GPS module defaults to UBLOX protocol. Without it, GPS auto-detection fails.
 2. **AP_BattMonitor_Analog** - SITL simulates battery via analog voltage/current readings.
 3. **AP_Baro::SimpleUnderWaterAtmosphere()** - Was in AP_Baro_HIL.cpp (deleted), moved to AP_Baro.cpp for submarine SITL.
+4. **AP_Airspeed_analog** - SITL uses TYPE_ANALOG as default airspeed type for ArduPlane.
 
 ### Files Modified
 
@@ -300,5 +350,7 @@ The following sensor libraries had hardware-specific drivers removed using `__ha
 | DroneCAN | libraries/AP_DroneCAN, modules/DroneCAN, backend drivers | ~650KB |
 | Sensor Drivers | AP_GPS, AP_Baro, AP_InertialSensor, AP_Compass, AP_BattMonitor (~140 files) | ~2MB |
 | Standalone Library | AP_Radio (16 files) | ~280KB |
+| Sensor Drivers | AP_Beacon hardware drivers (10 files) | ~100KB |
+| Sensor Drivers | AP_Airspeed hardware drivers (18 files) | ~180KB |
 
-**Total saved: ~72.8MB+**
+**Total saved: ~73.1MB+**
