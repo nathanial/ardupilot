@@ -110,7 +110,6 @@ COMMON_VEHICLE_DEPENDENT_LIBRARIES = [
     'AP_ExternalAHRS',
     'AP_VideoTX',
     'AP_TemperatureSensor',
-    'AP_Torqeedo',
     'AP_CustomRotations',
     'AP_AIS',
     'AP_OpenDroneID',

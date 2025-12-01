@@ -20,7 +20,11 @@
 #include <AP_Parachute/AP_Parachute_config.h>
 #include <AP_RangeFinder/AP_RangeFinder_config.h>
 #include <AP_ServoRelayEvents/AP_ServoRelayEvents_config.h>
+#if __has_include(<AP_Torqeedo/AP_Torqeedo_config.h>)
 #include <AP_Torqeedo/AP_Torqeedo_config.h>
+#else
+#define HAL_TORQEEDO_ENABLED 0
+#endif
 #include <AP_VisualOdom/AP_VisualOdom_config.h>
 #include <AP_Winch/AP_Winch_config.h>
 #include <AP_VideoTX/AP_VideoTX_config.h>

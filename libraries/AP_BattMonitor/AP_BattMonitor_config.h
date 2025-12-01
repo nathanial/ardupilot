@@ -4,7 +4,9 @@
 #include <AP_ESC_Telem/AP_ESC_Telem_config.h>
 #include <AP_EFI/AP_EFI_config.h>
 #include <AP_Generator/AP_Generator_config.h>
+#if __has_include(<AP_Torqeedo/AP_Torqeedo_config.h>)
 #include <AP_Torqeedo/AP_Torqeedo_config.h>
+#endif
 
 #ifndef AP_BATTERY_ENABLED
 #define AP_BATTERY_ENABLED 1

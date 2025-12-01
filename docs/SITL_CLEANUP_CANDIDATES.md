@@ -300,6 +300,25 @@ Files deleted:
 - `AP_TemperatureSensor_MLX90614.cpp/h` - MLX90614 IR sensor
 - `AP_TemperatureSensor_SHT3x.cpp/h` - SHT3x humidity/temp sensor
 
+### Files Modified (AP_Torqeedo Library Removal)
+
+Removed entire `libraries/AP_Torqeedo/` directory (9 files, ~100KB). Torqeedo is a boat electric motor control library with no SITL simulation.
+
+Code changes:
+1. **`Rover/Parameters.h`** - Added `__has_include` guard for AP_Torqeedo.h
+2. **`Rover/wscript`** - Removed AP_Torqeedo from ap_libraries list
+3. **`Tools/ardupilotwaf/ardupilotwaf.py`** - Removed AP_Torqeedo from COMMON_VEHICLE_DEPENDENT_LIBRARIES
+4. **`libraries/RC_Channel/RC_Channel.h`** - Added `__has_include` guard with fallback `#define HAL_TORQEEDO_ENABLED 0`
+5. **`libraries/RC_Channel/RC_Channel.cpp`** - Added `__has_include` guard for AP_Torqeedo.h
+6. **`libraries/AP_BattMonitor/AP_BattMonitor_config.h`** - Added `__has_include` guard for AP_Torqeedo_config.h
+
+Files deleted:
+- `AP_Torqeedo.cpp/h` - Main frontend class
+- `AP_Torqeedo_Backend.cpp/h` - Base backend class
+- `AP_Torqeedo_config.h` - Configuration
+- `AP_Torqeedo_Params.cpp/h` - Parameters
+- `AP_Torqeedo_TQBus.cpp/h` - TQBus protocol driver
+
 ### Pattern Used
 
 For each removed library, includes were wrapped with `__has_include`:
@@ -400,5 +419,6 @@ The following sensor libraries had hardware-specific drivers removed using `__ha
 | Sensor Drivers | AP_Airspeed hardware drivers (18 files) | ~180KB |
 | Sensor Drivers | AP_RPM hardware drivers (5 files) | ~50KB |
 | Sensor Drivers | AP_TemperatureSensor hardware drivers (14 files) | ~100KB |
+| Standalone Library | AP_Torqeedo (9 files) | ~100KB |
 
-**Total saved: ~73.4MB+**
+**Total saved: ~73.5MB+**

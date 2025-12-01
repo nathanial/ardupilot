@@ -57,7 +57,9 @@ extern const AP_HAL::HAL& hal;
 #include <AP_Mount/AP_Mount.h>
 #include <AP_Notify/AP_Notify.h>
 #include <AP_VideoTX/AP_VideoTX.h>
+#if __has_include(<AP_Torqeedo/AP_Torqeedo.h>)
 #include <AP_Torqeedo/AP_Torqeedo.h>
+#endif
 #include <AP_Vehicle/AP_Vehicle_Type.h>
 #include <AP_Parachute/AP_Parachute_config.h>
 #include <AP_Scripting/AP_Scripting.h>
