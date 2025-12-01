@@ -5,7 +5,11 @@
 #include <AP_Param/AP_Param.h>
 #include <AP_RTC/AP_RTC.h>
 #include <AC_PID/AC_PI.h>
+#if __has_include(<AP_Radio/AP_Radio_config.h>)
 #include <AP_Radio/AP_Radio_config.h>
+#else
+#define AP_RADIO_ENABLED 0
+#endif
 
 #if AP_RADIO_ENABLED
 #include <AP_Radio/AP_Radio.h>

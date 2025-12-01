@@ -53,6 +53,7 @@ This document tracks potential files/directories that could be removed for a SIT
 - `libraries/AP_IOMCU/` - IO coprocessor (100K) - Guarded in bindings.desc, removed from waf
 - `libraries/AP_BLHeli/` - BLHeli ESC protocol (100K) - Added include guards, removed from waf
 - `libraries/AP_FETtecOneWire/` - FETtec ESC (50K) - Added include guards, removed from waf
+- `libraries/AP_Radio/` - Direct radio (280K) - AP_RADIO_ENABLED=0 by default, added `__has_include` guards
 - `modules/lwip/` - Lightweight IP stack (8.8M) - Guarded with AP_NETWORKING_NEED_LWIP
 
 ### Navigation (EKF2 Removal)
@@ -187,6 +188,23 @@ Code changes:
 1. **`libraries/AP_Proximity/AP_Proximity.cpp`** - Added `__has_include` guards with macro disabling for all hardware drivers, added `default:` case to switch
 2. **`libraries/AP_DroneCAN/AP_DroneCAN.cpp`** - Added `__has_include` guard for AP_Proximity_DroneCAN
 
+### Files Modified (AP_Radio Removal)
+
+Removed entire `libraries/AP_Radio/` directory (16 files):
+- `AP_Radio.cpp/h` - Core library
+- `AP_Radio_backend.cpp/h` - Backend base class
+- `AP_Radio_config.h` - Configuration
+- `AP_Radio_bk2425.cpp/h`, `AP_Radio_cc2500.cpp/h`, `AP_Radio_cypress.cpp/h` - Hardware drivers
+- `driver_bk2425.cpp/h`, `driver_cc2500.cpp/h` - Low-level drivers
+- `telem_structure.h` - Telemetry structures
+
+Code changes:
+1. **`libraries/AP_RCProtocol/AP_RCProtocol_config.h`** - Added `__has_include` guard for AP_Radio_config.h
+2. **`libraries/AP_BoardConfig/AP_BoardConfig.h`** - Added `__has_include` guard for AP_Radio_config.h
+3. **`Tools/ardupilotwaf/ardupilotwaf.py`** - Removed AP_Radio from COMMON_VEHICLE_DEPENDENT_LIBRARIES
+
+Note: `AP_RADIO_ENABLED` already defaulted to `0`, all external references were properly guarded.
+
 ### Pattern Used
 
 For each removed library, includes were wrapped with `__has_include`:
@@ -201,19 +219,36 @@ For each removed library, includes were wrapped with `__has_include`:
 
 ---
 
-## Future Cleanup Candidates - Sensor Hardware Drivers
+## Sensor Hardware Drivers - Completed
 
-The following sensor libraries contain hardware-specific drivers that could be removed using the same pattern as AP_RangeFinder. Each library has a SITL backend that must be kept.
+The following sensor libraries had hardware-specific drivers removed using `__has_include` guards:
 
-| Library | Est. Files to Remove | SITL Backend |
-|---------|---------------------|--------------|
-| `libraries/AP_Compass/` | ~40 files | AP_Compass_SITL.cpp/h |
-| `libraries/AP_Baro/` | ~34 files | AP_Baro_SITL.cpp/h |
-| `libraries/AP_GPS/` | ~19 files | AP_GPS_SITL.cpp/h |
-| `libraries/AP_InertialSensor/` | ~21 files | AP_InertialSensor_SITL.cpp/h |
-| `libraries/AP_BattMonitor/` | ~26 files | (uses Analog backend for SITL) |
+| Library | Files Removed | Files Kept | Notes |
+|---------|--------------|------------|-------|
+| `libraries/AP_GPS/` | 16 files | SITL, MAV, MSP, ExternalAHRS, Blended, **UBLOX** | UBLOX required - SIM_GPS defaults to UBLOX protocol |
+| `libraries/AP_Baro/` | 26 files | SITL, MSP, ExternalAHRS, Dummy, Wind | SimpleUnderWaterAtmosphere moved to AP_Baro.cpp |
+| `libraries/AP_InertialSensor/` | 27 files | SITL, NONE, ExternalAHRS | |
+| `libraries/AP_Compass/` | 36 files | SITL, MSP, ExternalAHRS, Calibration | |
+| `libraries/AP_BattMonitor/` | 35+ files | Sum, Scripting, **Analog** | Analog required - SITL uses it for battery simulation |
 
-**Estimated total: ~140 additional hardware driver files**
+**Total removed: ~140 hardware driver files**
+
+### Critical SITL Dependencies Discovered
+
+**These backends MUST be kept for SITL to function:**
+
+1. **AP_GPS_UBLOX** - SIM_GPS module defaults to UBLOX protocol. Without it, GPS auto-detection fails.
+2. **AP_BattMonitor_Analog** - SITL simulates battery via analog voltage/current readings.
+3. **AP_Baro::SimpleUnderWaterAtmosphere()** - Was in AP_Baro_HIL.cpp (deleted), moved to AP_Baro.cpp for submarine SITL.
+
+### Files Modified
+
+1. **`libraries/AP_GPS/AP_GPS.cpp`** - Added `__has_include` guards for 9 hardware drivers
+2. **`libraries/AP_GPS/AP_GPS_config.h`** - Added `__has_include` guards for SBF and ERB (affects RTK macros)
+3. **`libraries/AP_Baro/AP_Baro.cpp`** - Added `__has_include` guards for 13 hardware drivers, added SimpleUnderWaterAtmosphere function
+4. **`libraries/AP_InertialSensor/AP_InertialSensor.cpp`** - Added `__has_include` guards for 12 hardware drivers
+5. **`libraries/AP_Compass/AP_Compass.cpp`** - Added `__has_include` guards for 18 hardware drivers
+6. **`libraries/AP_BattMonitor/AP_BattMonitor.cpp`** - Added `__has_include` guards for 21 hardware drivers
 
 ---
 
@@ -263,7 +298,7 @@ The following sensor libraries contain hardware-specific drivers that could be r
 | Sensor Drivers | AP_OpticalFlow hardware drivers (17 files) | ~150KB |
 | Sensor Drivers | AP_Proximity hardware drivers (24 files) | ~200KB |
 | DroneCAN | libraries/AP_DroneCAN, modules/DroneCAN, backend drivers | ~650KB |
+| Sensor Drivers | AP_GPS, AP_Baro, AP_InertialSensor, AP_Compass, AP_BattMonitor (~140 files) | ~2MB |
+| Standalone Library | AP_Radio (16 files) | ~280KB |
 
-**Total saved: ~70.5MB+**
-
-**Potential additional savings:** Removing hardware drivers from remaining sensor libraries (AP_Compass, AP_Baro, AP_GPS, AP_InertialSensor, AP_BattMonitor) could save an additional ~2MB and significantly simplify the codebase for understanding.
+**Total saved: ~72.8MB+**

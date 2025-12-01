@@ -3,7 +3,11 @@
 #include <AP_HAL/AP_HAL_Boards.h>
 #include <AP_Frsky_Telem/AP_Frsky_config.h>
 #include <GCS_MAVLink/GCS_config.h>
+#if __has_include(<AP_Radio/AP_Radio_config.h>)
 #include <AP_Radio/AP_Radio_config.h>
+#else
+#define AP_RADIO_ENABLED 0
+#endif
 
 #ifndef AP_RCPROTOCOL_ENABLED
 #define AP_RCPROTOCOL_ENABLED 1
