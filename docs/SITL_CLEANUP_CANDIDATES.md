@@ -121,6 +121,20 @@ The following libraries required code changes before they could be removed. Thes
 11. **`libraries/AP_NavEKF/LogStructure.h`** - Removed NKY0/NKY1 (EKF2) log message entries
 12. **`Tools/Replay/Replay.cpp`** - Emptied EKF2_log_structures array
 
+### Files Modified (AP_RangeFinder Hardware Driver Removal)
+
+Removed 85 hardware driver files from `libraries/AP_RangeFinder/`, keeping only:
+- `AP_RangeFinder.cpp/h` - Core library
+- `AP_RangeFinder_Backend.cpp/h` - Base backend class
+- `AP_RangeFinder_config.h` - Configuration
+- `AP_RangeFinder_Params.cpp/h` - Parameters
+- `AP_RangeFinder_SITL.cpp/h` - SITL backend
+
+Code changes:
+1. **`libraries/AP_RangeFinder/AP_RangeFinder.cpp`** - Added `__has_include` guards with macro disabling for all hardware drivers, added `HAS_RANGEFINDER_SERIAL_BACKENDS` guard, added `default:` case to switch
+2. **`libraries/AP_RangeFinder/AP_RangeFinder_config.h`** - Added `__has_include` check for MSP backend
+3. **`libraries/AP_DroneCAN/AP_DroneCAN.cpp`** - Added `__has_include` guard for AP_RangeFinder_DroneCAN with macro disabling
+
 ### Pattern Used
 
 For each removed library, includes were wrapped with `__has_include`:
@@ -132,6 +146,24 @@ For each removed library, includes were wrapped with `__has_include`:
 #define AP_SOMELIB_ENABLED 0
 #endif
 ```
+
+---
+
+## Future Cleanup Candidates - Sensor Hardware Drivers
+
+The following sensor libraries contain hardware-specific drivers that could be removed using the same pattern as AP_RangeFinder. Each library has a SITL backend that must be kept.
+
+| Library | Est. Files to Remove | SITL Backend |
+|---------|---------------------|--------------|
+| `libraries/AP_Compass/` | ~40 files | AP_Compass_SITL.cpp/h |
+| `libraries/AP_Baro/` | ~34 files | AP_Baro_SITL.cpp/h |
+| `libraries/AP_GPS/` | ~19 files | AP_GPS_SITL.cpp/h |
+| `libraries/AP_InertialSensor/` | ~21 files | AP_InertialSensor_SITL.cpp/h |
+| `libraries/AP_OpticalFlow/` | ~11 files | AP_OpticalFlow_SITL.cpp/h |
+| `libraries/AP_Proximity/` | ~12 files | AP_Proximity_SITL.cpp/h |
+| `libraries/AP_BattMonitor/` | ~26 files | (uses Analog backend for SITL) |
+
+**Estimated total: ~163 additional hardware driver files**
 
 ---
 
@@ -178,5 +210,8 @@ For each removed library, includes were wrapped with `__has_include`:
 | Medium Confidence | AP_HAL_Linux, AP_ONVIF | ~3.7MB |
 | Code Changes Required | AP_PiccoloCAN, AP_KDECAN, AP_IOMCU, AP_BLHeli, AP_FETtecOneWire, modules/lwip | ~10.4MB |
 | EKF2 Removal | libraries/AP_NavEKF2 | ~4.5MB |
+| Sensor Drivers | AP_RangeFinder hardware drivers (85 files) | ~500KB |
 
 **Total saved: ~70MB+**
+
+**Potential additional savings:** Removing hardware drivers from remaining sensor libraries (AP_Compass, AP_Baro, AP_GPS, AP_InertialSensor, AP_OpticalFlow, AP_Proximity, AP_BattMonitor) could save an additional ~2-3MB and significantly simplify the codebase for understanding.

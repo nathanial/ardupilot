@@ -17,53 +17,306 @@
 
 #if AP_RANGEFINDER_ENABLED
 
-#include "AP_RangeFinder_analog.h"
-#include "AP_RangeFinder_PulsedLightLRF.h"
-#include "AP_RangeFinder_MaxsonarI2CXL.h"
-#include "AP_RangeFinder_MaxsonarSerialLV.h"
-#include "AP_RangeFinder_BBB_PRU.h"
-#include "AP_RangeFinder_LightWareI2C.h"
-#include "AP_RangeFinder_LightWareSerial.h"
-#if AP_RANGEFINDER_BEBOP_ENABLED
-#include "AP_RangeFinder_Bebop.h"
-#endif
 #include "AP_RangeFinder_Backend.h"
-#include "AP_RangeFinder_Backend_Serial.h"
-#include "AP_RangeFinder_MAVLink.h"
-#include "AP_RangeFinder_LeddarOne.h"
-#include "AP_RangeFinder_USD1_Serial.h"
-#include "AP_RangeFinder_TeraRangerI2C.h"
-#include "AP_RangeFinder_TeraRanger_Serial.h"
-#include "AP_RangeFinder_VL53L0X.h"
-#include "AP_RangeFinder_VL53L1X.h"
-#include "AP_RangeFinder_NMEA.h"
-#include "AP_RangeFinder_Wasp.h"
-#include "AP_RangeFinder_Benewake_TF02.h"
-#include "AP_RangeFinder_Benewake_TF03.h"
-#include "AP_RangeFinder_Benewake_TFMini.h"
-#include "AP_RangeFinder_Benewake_TFMiniPlus.h"
-#include "AP_RangeFinder_Benewake_TFS20L.h"
-#include "AP_RangeFinder_PWM.h"
-#include "AP_RangeFinder_GYUS42v2.h"
-#include "AP_RangeFinder_HC_SR04.h"
-#include "AP_RangeFinder_Bebop.h"
-#include "AP_RangeFinder_BLPing.h"
-#include "AP_RangeFinder_DroneCAN.h"
-#include "AP_RangeFinder_Lanbao.h"
-#include "AP_RangeFinder_LeddarVu8.h"
 #include "AP_RangeFinder_SITL.h"
+
+// Hardware driver includes - wrapped with __has_include for SITL-only builds
+// Each include also sets the _ENABLED macro to 0 if file is missing
+
+#if __has_include("AP_RangeFinder_analog.h")
+#include "AP_RangeFinder_analog.h"
+#else
+#undef AP_RANGEFINDER_ANALOG_ENABLED
+#define AP_RANGEFINDER_ANALOG_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_PulsedLightLRF.h")
+#include "AP_RangeFinder_PulsedLightLRF.h"
+#else
+#undef AP_RANGEFINDER_PULSEDLIGHTLRF_ENABLED
+#define AP_RANGEFINDER_PULSEDLIGHTLRF_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_MaxsonarI2CXL.h")
+#include "AP_RangeFinder_MaxsonarI2CXL.h"
+#else
+#undef AP_RANGEFINDER_MAXSONARI2CXL_ENABLED
+#define AP_RANGEFINDER_MAXSONARI2CXL_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_MaxsonarSerialLV.h")
+#include "AP_RangeFinder_MaxsonarSerialLV.h"
+#else
+#undef AP_RANGEFINDER_MAXBOTIX_SERIAL_ENABLED
+#define AP_RANGEFINDER_MAXBOTIX_SERIAL_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_BBB_PRU.h")
+#include "AP_RangeFinder_BBB_PRU.h"
+#else
+#undef AP_RANGEFINDER_BBB_PRU_ENABLED
+#define AP_RANGEFINDER_BBB_PRU_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_LightWareI2C.h")
+#include "AP_RangeFinder_LightWareI2C.h"
+#else
+#undef AP_RANGEFINDER_LWI2C_ENABLED
+#define AP_RANGEFINDER_LWI2C_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_LightWareSerial.h")
+#include "AP_RangeFinder_LightWareSerial.h"
+#else
+#undef AP_RANGEFINDER_LIGHTWARE_SERIAL_ENABLED
+#define AP_RANGEFINDER_LIGHTWARE_SERIAL_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_Bebop.h")
+#include "AP_RangeFinder_Bebop.h"
+#else
+#undef AP_RANGEFINDER_BEBOP_ENABLED
+#define AP_RANGEFINDER_BEBOP_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_Backend_Serial.h")
+#include "AP_RangeFinder_Backend_Serial.h"
+#endif
+
+#if __has_include("AP_RangeFinder_MAVLink.h")
+#include "AP_RangeFinder_MAVLink.h"
+#else
+#undef AP_RANGEFINDER_MAVLINK_ENABLED
+#define AP_RANGEFINDER_MAVLINK_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_LeddarOne.h")
+#include "AP_RangeFinder_LeddarOne.h"
+#else
+#undef AP_RANGEFINDER_LEDDARONE_ENABLED
+#define AP_RANGEFINDER_LEDDARONE_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_USD1_Serial.h")
+#include "AP_RangeFinder_USD1_Serial.h"
+#else
+#undef AP_RANGEFINDER_USD1_SERIAL_ENABLED
+#define AP_RANGEFINDER_USD1_SERIAL_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_TeraRangerI2C.h")
+#include "AP_RangeFinder_TeraRangerI2C.h"
+#else
+#undef AP_RANGEFINDER_TRI2C_ENABLED
+#define AP_RANGEFINDER_TRI2C_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_TeraRanger_Serial.h")
+#include "AP_RangeFinder_TeraRanger_Serial.h"
+#else
+#undef AP_RANGEFINDER_TERARANGER_SERIAL_ENABLED
+#define AP_RANGEFINDER_TERARANGER_SERIAL_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_VL53L0X.h")
+#include "AP_RangeFinder_VL53L0X.h"
+#else
+#undef AP_RANGEFINDER_VL53L0X_ENABLED
+#define AP_RANGEFINDER_VL53L0X_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_VL53L1X.h")
+#include "AP_RangeFinder_VL53L1X.h"
+#else
+#undef AP_RANGEFINDER_VL53L1X_ENABLED
+#define AP_RANGEFINDER_VL53L1X_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_NMEA.h")
+#include "AP_RangeFinder_NMEA.h"
+#else
+#undef AP_RANGEFINDER_NMEA_ENABLED
+#define AP_RANGEFINDER_NMEA_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_Wasp.h")
+#include "AP_RangeFinder_Wasp.h"
+#else
+#undef AP_RANGEFINDER_WASP_ENABLED
+#define AP_RANGEFINDER_WASP_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_Benewake_TF02.h")
+#include "AP_RangeFinder_Benewake_TF02.h"
+#else
+#undef AP_RANGEFINDER_BENEWAKE_TF02_ENABLED
+#define AP_RANGEFINDER_BENEWAKE_TF02_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_Benewake_TF03.h")
+#include "AP_RangeFinder_Benewake_TF03.h"
+#else
+#undef AP_RANGEFINDER_BENEWAKE_TF03_ENABLED
+#define AP_RANGEFINDER_BENEWAKE_TF03_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_Benewake_TFMini.h")
+#include "AP_RangeFinder_Benewake_TFMini.h"
+#else
+#undef AP_RANGEFINDER_BENEWAKE_TFMINI_ENABLED
+#define AP_RANGEFINDER_BENEWAKE_TFMINI_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_Benewake_TFMiniPlus.h")
+#include "AP_RangeFinder_Benewake_TFMiniPlus.h"
+#else
+#undef AP_RANGEFINDER_BENEWAKE_TFMINIPLUS_ENABLED
+#define AP_RANGEFINDER_BENEWAKE_TFMINIPLUS_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_Benewake_TFS20L.h")
+#include "AP_RangeFinder_Benewake_TFS20L.h"
+#else
+#undef AP_RANGEFINDER_BENEWAKE_TFS20L_ENABLED
+#define AP_RANGEFINDER_BENEWAKE_TFS20L_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_PWM.h")
+#include "AP_RangeFinder_PWM.h"
+#else
+#undef AP_RANGEFINDER_PWM_ENABLED
+#define AP_RANGEFINDER_PWM_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_GYUS42v2.h")
+#include "AP_RangeFinder_GYUS42v2.h"
+#else
+#undef AP_RANGEFINDER_GYUS42V2_ENABLED
+#define AP_RANGEFINDER_GYUS42V2_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_HC_SR04.h")
+#include "AP_RangeFinder_HC_SR04.h"
+#else
+#undef AP_RANGEFINDER_HC_SR04_ENABLED
+#define AP_RANGEFINDER_HC_SR04_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_BLPing.h")
+#include "AP_RangeFinder_BLPing.h"
+#else
+#undef AP_RANGEFINDER_BLPING_ENABLED
+#define AP_RANGEFINDER_BLPING_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_DroneCAN.h")
+#include "AP_RangeFinder_DroneCAN.h"
+#else
+#undef AP_RANGEFINDER_DRONECAN_ENABLED
+#define AP_RANGEFINDER_DRONECAN_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_Lanbao.h")
+#include "AP_RangeFinder_Lanbao.h"
+#else
+#undef AP_RANGEFINDER_LANBAO_ENABLED
+#define AP_RANGEFINDER_LANBAO_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_LeddarVu8.h")
+#include "AP_RangeFinder_LeddarVu8.h"
+#else
+#undef AP_RANGEFINDER_LEDDARVU8_ENABLED
+#define AP_RANGEFINDER_LEDDARVU8_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_MSP.h")
 #include "AP_RangeFinder_MSP.h"
+#else
+#undef HAL_MSP_RANGEFINDER_ENABLED
+#define HAL_MSP_RANGEFINDER_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_USD1_CAN.h")
 #include "AP_RangeFinder_USD1_CAN.h"
+#else
+#undef AP_RANGEFINDER_USD1_CAN_ENABLED
+#define AP_RANGEFINDER_USD1_CAN_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_Benewake_CAN.h")
 #include "AP_RangeFinder_Benewake_CAN.h"
+#else
+#undef AP_RANGEFINDER_BENEWAKE_CAN_ENABLED
+#define AP_RANGEFINDER_BENEWAKE_CAN_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_Lua.h")
 #include "AP_RangeFinder_Lua.h"
+#else
+#undef AP_RANGEFINDER_LUA_ENABLED
+#define AP_RANGEFINDER_LUA_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_NoopLoop.h")
 #include "AP_RangeFinder_NoopLoop.h"
+#else
+#undef AP_RANGEFINDER_NOOPLOOP_ENABLED
+#define AP_RANGEFINDER_NOOPLOOP_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_TOFSenseP_CAN.h")
 #include "AP_RangeFinder_TOFSenseP_CAN.h"
+#else
+#undef AP_RANGEFINDER_TOFSENSEP_CAN_ENABLED
+#define AP_RANGEFINDER_TOFSENSEP_CAN_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_NRA24_CAN.h")
 #include "AP_RangeFinder_NRA24_CAN.h"
+#else
+#undef AP_RANGEFINDER_NRA24_CAN_ENABLED
+#define AP_RANGEFINDER_NRA24_CAN_ENABLED 0
+#undef AP_RANGEFINDER_NRA24_CAN_DRIVER_ENABLED
+#define AP_RANGEFINDER_NRA24_CAN_DRIVER_ENABLED 0
+#undef AP_RANGEFINDER_HEXSOONRADAR_ENABLED
+#define AP_RANGEFINDER_HEXSOONRADAR_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_TOFSenseF_I2C.h")
 #include "AP_RangeFinder_TOFSenseF_I2C.h"
+#else
+#undef AP_RANGEFINDER_TOFSENSEF_I2C_ENABLED
+#define AP_RANGEFINDER_TOFSENSEF_I2C_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_JRE_Serial.h")
 #include "AP_RangeFinder_JRE_Serial.h"
+#else
+#undef AP_RANGEFINDER_JRE_SERIAL_ENABLED
+#define AP_RANGEFINDER_JRE_SERIAL_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_Ainstein_LR_D1.h")
 #include "AP_RangeFinder_Ainstein_LR_D1.h"
+#else
+#undef AP_RANGEFINDER_AINSTEIN_LR_D1_ENABLED
+#define AP_RANGEFINDER_AINSTEIN_LR_D1_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_RDS02UF.h")
 #include "AP_RangeFinder_RDS02UF.h"
+#else
+#undef AP_RANGEFINDER_RDS02UF_ENABLED
+#define AP_RANGEFINDER_RDS02UF_ENABLED 0
+#endif
+
+#if __has_include("AP_RangeFinder_LightWare_GRF.h")
 #include "AP_RangeFinder_LightWare_GRF.h"
+#else
+#undef AP_RANGEFINDER_LIGHTWARE_GRF_ENABLED
+#define AP_RANGEFINDER_LIGHTWARE_GRF_ENABLED 0
+#endif
 
 #include <AP_BoardConfig/AP_BoardConfig.h>
 #include <AP_Logger/AP_Logger.h>
@@ -284,9 +537,19 @@ __INITFUNC__ bool RangeFinder::_add_backend(AP_RangeFinder_Backend *backend, uin
 /*
   detect if an instance of a rangefinder is connected. 
  */
+// Forward declaration for serial backend type (may be removed in SITL-only builds)
+#if __has_include("AP_RangeFinder_Backend_Serial.h")
+class AP_RangeFinder_Backend_Serial;
+#define HAS_RANGEFINDER_SERIAL_BACKENDS 1
+#else
+#define HAS_RANGEFINDER_SERIAL_BACKENDS 0
+#endif
+
 __INITFUNC__ void RangeFinder::detect_instance(uint8_t instance, uint8_t& serial_instance)
 {
+#if HAS_RANGEFINDER_SERIAL_BACKENDS
     AP_RangeFinder_Backend_Serial *(*serial_create_fn)(RangeFinder::RangeFinder_State&, AP_RangeFinder_Params&) = nullptr;
+#endif
 
     const Type _type = (Type)params[instance].type.get();
     switch (_type) {
@@ -644,9 +907,11 @@ __INITFUNC__ void RangeFinder::detect_instance(uint8_t instance, uint8_t& serial
 #endif // AP_RANGEFINDER_LIGHTWARE_GRF_ENABLED
 
     case Type::NONE:
+    default:
         break;
     }
 
+#if HAS_RANGEFINDER_SERIAL_BACKENDS
     if (serial_create_fn != nullptr) {
         if (AP::serialmanager().have_serial(AP_SerialManager::SerialProtocol_Rangefinder, serial_instance)) {
             auto *b = serial_create_fn(state[instance], params[instance]);
@@ -655,6 +920,7 @@ __INITFUNC__ void RangeFinder::detect_instance(uint8_t instance, uint8_t& serial
             }
         }
     }
+#endif
 
     // if the backend has some local parameters then make those available in the tree
     if (drivers[instance] && state[instance].var_info) {

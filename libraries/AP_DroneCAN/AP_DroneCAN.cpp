@@ -33,7 +33,12 @@
 #include <AP_BattMonitor/AP_BattMonitor_DroneCAN.h>
 #include <AP_Airspeed/AP_Airspeed_DroneCAN.h>
 #include <AP_OpticalFlow/AP_OpticalFlow_HereFlow.h>
+#if __has_include(<AP_RangeFinder/AP_RangeFinder_DroneCAN.h>)
 #include <AP_RangeFinder/AP_RangeFinder_DroneCAN.h>
+#else
+#undef AP_RANGEFINDER_DRONECAN_ENABLED
+#define AP_RANGEFINDER_DRONECAN_ENABLED 0
+#endif
 #include <AP_RCProtocol/AP_RCProtocol_DroneCAN.h>
 #include <AP_EFI/AP_EFI_DroneCAN.h>
 #include <AP_GPS/AP_GPS_DroneCAN.h>
